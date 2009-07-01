@@ -1,0 +1,18 @@
+citHeader("To cite Anchors in publications use:")
+
+citEntry(entry = "Article",
+  title        = "{anchors}: Software for Anchoring Vignette Data",
+  author       = personList(as.person("Jonathan Wand"),
+                            as.person("Gary King"),
+                            as.person("Olivia Lau")),
+  journal      = "Journal of Statistical Software",
+  year         = "2009",
+  note         = "Forthcoming",
+  url          = "http://www.jstatsoft.org/",
+
+  textVersion  =
+  paste("Jonathan Wand, Gary King, Olivia Lau (2009).",
+        "anchors: Software for Anchoring Vignette Data.",
+        "Journal of Statistical Software, Forthcoming.",
+        "URL http://www.jstatsoft.org/.")
+)

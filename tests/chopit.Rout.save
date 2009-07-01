@@ -1,0 +1,256 @@
+
+R version 2.8.1 (2008-12-22)
+Copyright (C) 2008 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## R Code to estimate CHOPIT model of political efficacy
+> ##
+> ## Example: default model
+> ## 
+> ## Author:    Jonathan Wand <wand(at)stanford.edu>
+> ##
+> ## Created:   2002-08-01
+> ## Modified:  $Date: 2005/12/19 21:12:53 $
+> ## Revision:  $Revision: 1.2 $
+> ## RCS-ID:    $Id: chopit.default2.R,v 1.2 2005/12/19 21:12:53 jwand Exp $
+> ##
+> library(anchors)
+Loading required package: rgenoud
+##  rgenoud (Version 5.5-1, Build Date: 2009-03-13)
+##  See http://sekhon.berkeley.edu/rgenoud for additional documentation.
+Loading required package: MASS
+
+##  anchors (Version 3.0-4, Build Date: 2009-07-01)
+##  See http://wand.stanford.edu/anchors for additional documentation and support.
+
+> 
+> cat("\n\nchopit() Demo\n\n")
+
+
+chopit() Demo
+
+> 
+> ## Step 1. Get library and data
+> # library(anchors)
+> data(mexchn)
+> 
+> cat("\nSpecify list of model components\n")
+
+Specify list of model components
+> ## Step 2. List of names of columns from dataset which will be used in analysis
+> fo <- list(self =  xsayself ~ china + age + male + educyrs  ,
++            vign = cbind(xsay1,xsay2,xsay3,xsay4,xsay5) ~ 1  ,
++            tau  =           ~ china + age + male + educyrs  )
+> 
+> cat("\nDefault invocation of chopit\n")
+
+Default invocation of chopit
+> ## Step 3. Invoke chopit() function
+> out0  <- chopit( fo, mexchn, options=anchors.options(verbose=TRUE))
+
+COUNTING OBSERVATIONS:
+ 
+Number of cases in self likelihood (nobs.self) =  859 
+Number of cases in vign likelihood (nobs.vign) =  851 
+
+COUNTING TYPES:
+ 
+Number of self-Q (n.self) =  1 
+Number of categories (n.cat) =  5 
+Number of variables in gamma (nvars.gamma) =  5 
+Number of variables in gamma1 (nvars.gamma1) =  5 
+Number of vignettes  (n.vign) 5 
+
+chopit() will be identified/normalized by:
+1. omitting the intercept in mu, (constant set to zero is beta.(Intercept) )
+2. setting variance of first self question to 1
+
+
+Starting parameters:
+$gamma1
+[1] 0.1 0.0 0.0 0.0 0.0
+
+$gamma
+ [1] 0.1 0.0 0.0 0.0 0.0 0.1 0.0 0.0 0.0 0.0 0.1 0.0 0.0 0.0 0.0
+
+$sigma.re
+[1] 1
+
+$sigma.self
+[1] 1
+
+$sigma.vign
+[1] 1 1 1 1 1
+
+$theta
+[1] 0 0 0 0 0
+
+$beta
+[1] 0 0 0 0 0
+
+                        V1
+gamma.cut1.(Intercept) 0.1
+gamma.cut1.china       0.0
+gamma.cut1.age         0.0
+gamma.cut1.male        0.0
+gamma.cut1.educyrs     0.0
+gamma.cut2.(Intercept) 0.1
+gamma.cut2.china       0.0
+gamma.cut2.age         0.0
+gamma.cut2.male        0.0
+gamma.cut2.educyrs     0.0
+gamma.cut3.(Intercept) 0.1
+gamma.cut3.china       0.0
+gamma.cut3.age         0.0
+gamma.cut3.male        0.0
+gamma.cut3.educyrs     0.0
+gamma.cut4.(Intercept) 0.1
+gamma.cut4.china       0.0
+gamma.cut4.age         0.0
+gamma.cut4.male        0.0
+gamma.cut4.educyrs     0.0
+sigma.xsay1            1.0
+sigma.xsay2            1.0
+sigma.xsay3            1.0
+sigma.xsay4            1.0
+sigma.xsay5            1.0
+theta.xsay1            0.0
+theta.xsay2            0.0
+theta.xsay3            0.0
+theta.xsay4            0.0
+theta.xsay5            0.0
+beta.china             0.0
+beta.age               0.0
+beta.male              0.0
+beta.educyrs           0.0
+
+
+
+
+Starting chopit() estimation...
+
+NOTE: analytical gradients are being employed
+
+initial  value 11709.598566 
+iter  10 value 7581.073329
+iter  20 value 7277.519500
+iter  30 value 7171.145498
+iter  40 value 6985.015820
+iter  50 value 6979.267433
+final  value 6979.267428 
+converged
+FINAL GRADIENTS
+ [1]  2.937992e-05  1.535086e-05  1.387568e-03  1.502477e-05  2.537598e-04
+ [6]  3.404366e-05  1.620102e-05  1.464629e-03  1.804597e-05  2.864445e-04
+[11]  2.608938e-05  1.412080e-05  1.230193e-03  1.305528e-05  2.330219e-04
+[16]  2.466399e-06  4.791235e-06  1.320844e-04  1.598641e-06  1.507675e-05
+[21] -1.356460e-06 -2.332286e-06 -2.967052e-06 -3.090505e-06 -2.468684e-06
+[26] -8.169708e-06 -8.479026e-06 -4.477243e-06 -3.743376e-06 -2.198868e-06
+[31] -1.378791e-06 -1.098162e-04 -1.155733e-06 -1.999213e-05
+> 
+> cat("\nSummary of default chopit\n")
+
+Summary of default chopit
+> summary(out0)
+
+ANCHORS: SUMMARY OF RELATIVE CHOPIT ANALYSIS:
+
+Model formula:
+$self
+xsayself ~ china + age + male + educyrs
+
+$vign
+cbind(xsay1, xsay2, xsay3, xsay4, xsay5) ~ 1
+
+$tau
+~china + age + male + educyrs
+
+$cpolr
+~1
+
+
+Coefficients:
+                         coeff     se
+gamma.cut1.(Intercept)  0.4532 0.1510
+gamma.cut1.china       -1.0661 0.0598
+gamma.cut1.age          0.0020 0.0013
+gamma.cut1.male         0.0497 0.0367
+gamma.cut1.educyrs     -0.0048 0.0037
+gamma.cut2.(Intercept)  0.7388 0.0701
+gamma.cut2.china       -0.0553 0.0453
+gamma.cut2.age         -0.0014 0.0012
+gamma.cut2.male        -0.0476 0.0342
+gamma.cut2.educyrs      0.0033 0.0034
+gamma.cut3.(Intercept)  0.5792 0.0682
+gamma.cut3.china        0.2928 0.0384
+gamma.cut3.age         -0.0006 0.0011
+gamma.cut3.male         0.0413 0.0317
+gamma.cut3.educyrs     -0.0023 0.0033
+gamma.cut4.(Intercept)  0.1606 0.0575
+gamma.cut4.china        0.2322 0.0322
+gamma.cut4.age          0.0016 0.0010
+gamma.cut4.male        -0.0402 0.0290
+gamma.cut4.educyrs      0.0092 0.0032
+sigma.random.effect     1.0000    NaN
+sigma.self              1.0000    NaN
+sigma.xsay1             0.6189 0.0321
+sigma.xsay2             0.6272 0.0319
+sigma.xsay3             0.7881 0.0404
+sigma.xsay4             0.8612 0.0458
+sigma.xsay5             1.0833 0.0620
+theta.xsay1             1.2560 0.1589
+theta.xsay2             1.1723 0.1584
+theta.xsay3             0.8303 0.1583
+theta.xsay4             0.7712 0.1588
+theta.xsay5             0.5392 0.1612
+beta.(Intercept)        0.0000    NaN
+beta.china             -0.3337 0.0899
+beta.age                0.0059 0.0028
+beta.male               0.1169 0.0807
+beta.educyrs            0.0165 0.0082
+
+-Log-likelihood of CHOPIT:  6979.267 
+
+Partition of CHOPIT -Log-likelihood by question:
+                     -LL   N
+Self (xsayself) 1154.407 859
+xsay1           1179.538 844
+xsay2           1166.480 842
+xsay3           1194.045 841
+xsay4           1170.087 845
+xsay5           1114.711 849
+
+Number of cases that contribute at least partially to likelihoods:
+   a) in self-responses: 859 
+   b) in vign-responses: 851 
+
+> 
+> cat("\nTake a look at some additional information\n")
+
+Take a look at some additional information
+> cat("Gradients\n")
+Gradients
+> print(out0$gr)
+ [1]  2.937992e-05  1.535086e-05  1.387568e-03  1.502477e-05  2.537598e-04
+ [6]  3.404366e-05  1.620102e-05  1.464629e-03  1.804597e-05  2.864445e-04
+[11]  2.608938e-05  1.412080e-05  1.230193e-03  1.305528e-05  2.330219e-04
+[16]  2.466399e-06  4.791235e-06  1.320844e-04  1.598641e-06  1.507675e-05
+[21] -1.356460e-06 -2.332286e-06 -2.967052e-06 -3.090505e-06 -2.468684e-06
+[26] -8.169708e-06 -8.479026e-06 -4.477243e-06 -3.743376e-06 -2.198868e-06
+[31] -1.378791e-06 -1.098162e-04 -1.155733e-06 -1.999213e-05
+> 
+> proc.time()
+   user  system elapsed 
+  1.704   0.024   1.770 

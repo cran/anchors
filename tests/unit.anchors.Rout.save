@@ -1,0 +1,669 @@
+
+R version 2.8.1 (2008-12-22)
+Copyright (C) 2008 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> #########################################################################
+> ## Jonathan Wand <wand(at)stanford.edu>
+> ##
+> ## UNIT TESTS for
+> ## - anchors() 
+> ## - summary.anchors()
+> ## - print.summary.anchors() 
+> #########################################################################
+> library(anchors)
+Loading required package: rgenoud
+##  rgenoud (Version 5.5-1, Build Date: 2009-03-13)
+##  See http://sekhon.berkeley.edu/rgenoud for additional documentation.
+Loading required package: MASS
+
+##  anchors (Version 3.0-4, Build Date: 2009-07-01)
+##  See http://wand.stanford.edu/anchors for additional documentation and support.
+
+> cat("TEST1: Checking anchors against the 13 examples in Table 1 of King and Wand (2007)\n")
+TEST1: Checking anchors against the 13 examples in Table 1 of King and Wand (2007)
+> data(table1)
+> dta <- data.frame(y  = c(1,3,3,4,4,2,2,3,1,2,3,3,4),
++                   z1 = c(2,3,2,2,2,3,2,2,3,3,4,3,3),
++                   z2 = c(3,4,4,4,3,3,2,2,2,2,2,2,2))
+> test1 <- anchors(y ~ z1 + z2, data = dta, method="C")
+> summary(test1)
+
+ANCHORS: SUMMARY OF RELATIVE RANK ANALYSIS:
+
+Overview of C-ranks
+
+Number of cases: 4 with interval value, 9 with scalar value
+
+Maximum possible C-rank value: 5
+
+Interval on C-scale: Freqency and proportions Cs to Ce
+         N  Prop MinEnt
+ 1 to  1 3 0.231      1
+ 2 to  2 1 0.077      2
+ 3 to  3 1 0.077      3
+ 4 to  4 1 0.077      4
+ 5 to  5 3 0.231      5
+ 1 to  4 1 0.077      1
+ 1 to  5 1 0.077      1
+ 2 to  4 1 0.077      2
+ 2 to  5 1 0.077      5
+
+Note: MinEnt is the rank for the interval that minimizes entropy
+
+Summary of C-ranks with ties/intervals broken:
+
+Distribution of ranks omiting interval cases
+     1     2     3     4     5
+ 0.333 0.111 0.111 0.111 0.333
+
+Distribution of ranks allocating interval cases uniformly
+     1     2     3     4     5
+ 0.265 0.156 0.156 0.156 0.265
+
+Distribution of ranks allocating interval cases via cpolr
+and conditioning on observed ranks
+    1     2     3     4     5 
+0.283 0.145 0.145 0.145 0.283 
+
+Allocating cases to their MinEnt values produces
+    1     2     3     4     5 
+0.385 0.154 0.077 0.077 0.308 
+> 
+> cat("In the following two matricies, the true value is in the first column
++ and the estimated value in the second column; both columns should be
++ identical.\n")
+In the following two matricies, the true value is in the first column
+and the estimated value in the second column; both columns should be
+identical.
+> cbind(table1$Cs, test1$rank$span[,"Cs"])
+      [,1] [,2]
+ [1,]    1    1
+ [2,]    2    2
+ [3,]    3    3
+ [4,]    4    4
+ [5,]    5    5
+ [6,]    1    1
+ [7,]    2    2
+ [8,]    5    5
+ [9,]    1    1
+[10,]    1    1
+[11,]    1    1
+[12,]    2    2
+[13,]    5    5
+> cbind(table1$Ce, test1$rank$span[,"Ce"])
+      [,1] [,2]
+ [1,]    1    1
+ [2,]    2    2
+ [3,]    3    3
+ [4,]    4    4
+ [5,]    5    5
+ [6,]    1    1
+ [7,]    4    4
+ [8,]    5    5
+ [9,]    1    1
+[10,]    4    4
+[11,]    5    5
+[12,]    5    5
+[13,]    5    5
+> cat("These equalities MUST be true\n")
+These equalities MUST be true
+> 
+> allequal.test(table1$Cs, test1$rank$span[,"Cs"])
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> allequal.test(table1$Ce, test1$rank$span[,"Ce"])
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> 
+> cat("TEST2: Repeat but with missing values\n")
+TEST2: Repeat but with missing values
+> data(table1)
+> dta <- data.frame(y  = c(1,NA,3 ,4 ,4,2,0,3,1,0,3,3,4), 
++                   z1 = c(2,3 ,NA,2 ,2,0,2,2,3,3,0,3,3),
++                   z2 = c(3,4 ,4 ,NA,0,3,2,2,2,2,2,0,2))
+> test1 <- anchors(y ~ z1 + z2, data = dta, method="C")
+Warning message:
+In cpolr(fo, data = fdata, method = options$cpolr.method, debug = options$debug) :
+  cpolr response must have 3 or more levels, skipping.
+
+> print(test1)
+$rank
+$type
+[1] "C"
+
+$span
+   Cs Ce
+1   1  1
+8   5  5
+9   1  1
+13  5  5
+
+$weight
+   1 2 3 4 5
+1  1 0 0 0 0
+8  0 0 0 0 1
+9  1 0 0 0 0
+13 0 0 0 0 1
+
+$max
+[1] 5
+
+attr(,"class")
+[1] "anchors.rank.type"
+
+$summary
+$summary$interval
+         N Prop from to
+ 1 to  1 2  0.5    1  1
+ 2 to  2 0  0.0    2  2
+ 3 to  3 0  0.0    3  3
+ 4 to  4 0  0.0    4  4
+ 5 to  5 2  0.5    5  5
+
+$summary$scalar
+         N Prop from to
+ 1 to  1 2  0.5    1  1
+ 2 to  2 0  0.0    2  2
+ 3 to  3 0  0.0    3  3
+ 4 to  4 0  0.0    4  4
+ 5 to  5 2  0.5    5  5
+
+$summary$uniform
+  N Prop from to
+1 2  0.5    1  1
+2 0  0.0    2  2
+3 0  0.0    3  3
+4 0  0.0    4  4
+5 2  0.5    5  5
+
+$summary$n.interval
+[1] 0
+
+$summary$n.scalar
+[1] 4
+
+$summary$avg.span
+[1] 1
+
+$summary$max
+[1] 5
+
+
+$minentropy
+         N Prop MinEnt
+ 1 to  1 2  0.5      1
+ 2 to  2 0  0.0      2
+ 3 to  3 0  0.0      3
+ 4 to  4 0  0.0      4
+ 5 to  5 2  0.5      5
+
+$cpolr
+NULL
+
+$type
+[1] "C"
+
+attr(,"class")
+[1] "anchors.rank"
+> summary(test1)
+
+ANCHORS: SUMMARY OF RELATIVE RANK ANALYSIS:
+
+Overview of C-ranks
+
+Number of cases: 0 with interval value, 4 with scalar value
+
+Maximum possible C-rank value: 5
+
+Interval on C-scale: Freqency and proportions Cs to Ce
+         N Prop MinEnt
+ 1 to  1 2  0.5      1
+ 2 to  2 0  0.0      2
+ 3 to  3 0  0.0      3
+ 4 to  4 0  0.0      4
+ 5 to  5 2  0.5      5
+
+Note: MinEnt is the rank for the interval that minimizes entropy
+
+Summary of C-ranks with ties/intervals broken:
+
+Distribution of ranks omiting interval cases
+   1 2 3 4   5
+ 0.5 0 0 0 0.5
+
+Distribution of ranks allocating interval cases uniformly
+   1 2 3 4   5
+ 0.5 0 0 0 0.5
+
+There is no cpolr model included in anchors.rank object
+Either cpolr was not requested when the ranks were calculated
+[ see 'anchors.options(rank.extras)' ],
+or there were not enough different ranks (<=2) to estimate the cpolr model
+
+Allocating cases to their MinEnt values produces
+  1   2   3   4   5 
+0.5 0.0 0.0 0.0 0.5 
+> 
+> cat("These equalities MUST be false incorrect length error:\n")
+These equalities MUST be false incorrect length error:
+> allequal.test(table1$Cs, test1$rank$span[,"Cs"], FALSE) 
+Expecting all.equal() = FALSE  :  test is correctly FALSE 
+> cat("BUT These equalities MUST be true\n")
+BUT These equalities MUST be true
+> allequal.test(table1$Cs[c(1,8,9,13)], test1$rank$span[,"Cs"])
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> allequal.test(table1$Ce[c(1,8,9,13)], test1$rank$span[,"Ce"])
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> # ## using internal values returned by anchors()
+> # allequal.test(table1$Cs[-test1$omit.row], test1$rank$span[,"Cs"])
+> # allequal.test(table1$Ce[-test1$omit.row], test1$rank$span[,"Ce"])
+> # ## using internal values returned by anchors()
+> # allequal.test(table1$Cs[!test1$omit.logical], test1$rank$span[,"Cs"])
+> # allequal.test(table1$Ce[!test1$omit.logical], test1$rank$span[,"Ce"])
+> 
+> 
+> cat("TEST3: Repeat but with missing values\n")
+TEST3: Repeat but with missing values
+> data(table1)
+> dta <- data.frame(y  = c(1,3,3,NA,4,2,2,3,1,2,3,3,4),
++                   z1 = c(2,3,2,2 ,2,3,2,2,3,3,4,3,3),
++                   z2 = c(3,4,4,4 ,3,3,2,0,2,2,2,2,2))
+> test1 <- anchors(y ~ z1 + z2, data = dta, method="C")
+
+There is at least one missing category: 4 
+
+> print(test1)
+$rank
+$type
+[1] "C"
+
+$span
+   Cs Ce
+1   1  1
+2   2  2
+3   3  3
+5   5  5
+6   1  1
+7   2  4
+9   1  1
+10  1  4
+11  1  5
+12  2  5
+13  5  5
+
+$weight
+      1         2         3         4    5
+1  1.00 0.0000000 0.0000000 0.0000000 0.00
+2  0.00 1.0000000 0.0000000 0.0000000 0.00
+3  0.00 0.0000000 1.0000000 0.0000000 0.00
+5  0.00 0.0000000 0.0000000 0.0000000 1.00
+6  1.00 0.0000000 0.0000000 0.0000000 0.00
+7  0.00 0.3333333 0.3333333 0.3333333 0.00
+9  1.00 0.0000000 0.0000000 0.0000000 0.00
+10 0.25 0.2500000 0.2500000 0.2500000 0.00
+11 0.20 0.2000000 0.2000000 0.2000000 0.20
+12 0.00 0.2500000 0.2500000 0.2500000 0.25
+13 0.00 0.0000000 0.0000000 0.0000000 1.00
+
+$max
+[1] 5
+
+attr(,"class")
+[1] "anchors.rank.type"
+
+$summary
+$summary$interval
+         N      Prop from to
+ 1 to  1 3 0.2727273    1  1
+ 2 to  2 1 0.0909091    2  2
+ 3 to  3 1 0.0909091    3  3
+ 4 to  4 0 0.0000000    4  4
+ 5 to  5 2 0.1818182    5  5
+ 1 to  4 1 0.0909091    1  4
+ 1 to  5 1 0.0909091    1  5
+ 2 to  4 1 0.0909091    2  4
+ 2 to  5 1 0.0909091    2  5
+
+$summary$scalar
+         N      Prop from to
+ 1 to  1 3 0.4285714    1  1
+ 2 to  2 1 0.1428571    2  2
+ 3 to  3 1 0.1428571    3  3
+ 4 to  4 0 0.0000000    4  4
+ 5 to  5 2 0.2857143    5  5
+
+$summary$uniform
+         N      Prop from to
+1 3.450000 0.3136364    1  1
+2 2.033333 0.1848485    2  2
+3 2.033333 0.1848485    3  3
+4 1.033333 0.0939394    4  4
+5 2.450000 0.2227273    5  5
+
+$summary$n.interval
+[1] 4
+
+$summary$n.scalar
+[1] 7
+
+$summary$avg.span
+[1] 2.090909
+
+$summary$max
+[1] 5
+
+
+$minentropy
+         N      Prop MinEnt
+ 1 to  1 3 0.2727273      1
+ 2 to  2 1 0.0909091      2
+ 3 to  3 1 0.0909091      3
+ 4 to  4 0 0.0000000      4
+ 5 to  5 2 0.1818182      5
+ 1 to  4 1 0.0909091      1
+ 1 to  5 1 0.0909091      1
+ 2 to  4 1 0.0909091      2
+ 2 to  5 1 0.0909091      2
+
+$cpolr
+Call:
+cpolr(formula = fo, data = fdata, method = options$cpolr.method, 
+    debug = options$debug)
+
+No coefficients
+
+Intercepts:
+       1|2        2|3        3|5 
+-0.3983560  0.1372114  0.7190729 
+
+Residual Deviance: 21.53747 
+AIC: 27.53747 
+
+$type
+[1] "C"
+
+attr(,"class")
+[1] "anchors.rank"
+> summary(test1)
+
+ANCHORS: SUMMARY OF RELATIVE RANK ANALYSIS:
+
+Overview of C-ranks
+
+Number of cases: 4 with interval value, 7 with scalar value
+
+Maximum possible C-rank value: 5
+
+Interval on C-scale: Freqency and proportions Cs to Ce
+         N  Prop MinEnt
+ 1 to  1 3 0.273      1
+ 2 to  2 1 0.091      2
+ 3 to  3 1 0.091      3
+ 4 to  4 0 0.000      4
+ 5 to  5 2 0.182      5
+ 1 to  4 1 0.091      1
+ 1 to  5 1 0.091      1
+ 2 to  4 1 0.091      2
+ 2 to  5 1 0.091      2
+
+Note: MinEnt is the rank for the interval that minimizes entropy
+
+Summary of C-ranks with ties/intervals broken:
+
+Distribution of ranks omiting interval cases
+     1     2     3 4     5
+ 0.429 0.143 0.143 0 0.286
+
+Distribution of ranks allocating interval cases uniformly
+     1     2     3     4     5
+ 0.314 0.185 0.185 0.094 0.223
+
+Distribution of ranks allocating interval cases via cpolr
+and conditioning on observed ranks
+    1     2     3     4     5 
+0.345 0.209 0.209 0.000 0.236 
+
+Allocating cases to their MinEnt values produces
+    1     2     3     4     5 
+0.455 0.273 0.091 0.000 0.182 
+> 
+> cat("These equalities MUST be false incorrect length error:\n")
+These equalities MUST be false incorrect length error:
+> allequal.test(table1$Cs, test1$rank$span[,"Cs"],FALSE)
+Expecting all.equal() = FALSE  :  test is correctly FALSE 
+> cat("BUT These equalities MUST be true\n")
+BUT These equalities MUST be true
+> allequal.test(table1$Cs[-c(4,8)], test1$rank$span[,"Cs"])
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> allequal.test(table1$Ce[-c(4,8)], test1$rank$span[,"Ce"])
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> # ## using internal values returned by anchors()
+> # allequal.test(table1$Cs[-test1$omit.row], test1$rank$span[,"Cs"])
+> # allequal.test(table1$Ce[-test1$omit.row], test1$rank$span[,"Ce"])
+> # ## using internal values returned by anchors()
+> # allequal.test(table1$Cs[!test1$omit.logical], test1$rank$span[,"Cs"])
+> # allequal.test(table1$Ce[!test1$omit.logical], test1$rank$span[,"Ce"])
+> 
+> 
+> cat("TEST4: Repeat but with missing values -- string names\n")
+TEST4: Repeat but with missing values -- string names
+> data(table1)
+> dta <- data.frame(y  = c(1,3,3,NA,4,2,2,3,1,2,3,3,4),
++                   z1 = c(2,3,2,2 ,2,3,2,2,3,3,4,NA,3),
++                   z2 = c(3,4,4,4 ,3,3,2,0,2,2,2,2,2))
+> rownames(dta) <- letters[1:13]
+> test1 <- anchors(y ~ z1 + z2, data = dta, method="C")
+
+There is at least one missing category: 4 
+
+> print(test1)
+$rank
+$type
+[1] "C"
+
+$span
+  Cs Ce
+a  1  1
+b  2  2
+c  3  3
+e  5  5
+f  1  1
+g  2  4
+i  1  1
+j  1  4
+k  1  5
+m  5  5
+
+$weight
+     1         2         3         4   5
+a 1.00 0.0000000 0.0000000 0.0000000 0.0
+b 0.00 1.0000000 0.0000000 0.0000000 0.0
+c 0.00 0.0000000 1.0000000 0.0000000 0.0
+e 0.00 0.0000000 0.0000000 0.0000000 1.0
+f 1.00 0.0000000 0.0000000 0.0000000 0.0
+g 0.00 0.3333333 0.3333333 0.3333333 0.0
+i 1.00 0.0000000 0.0000000 0.0000000 0.0
+j 0.25 0.2500000 0.2500000 0.2500000 0.0
+k 0.20 0.2000000 0.2000000 0.2000000 0.2
+m 0.00 0.0000000 0.0000000 0.0000000 1.0
+
+$max
+[1] 5
+
+attr(,"class")
+[1] "anchors.rank.type"
+
+$summary
+$summary$interval
+         N Prop from to
+ 1 to  1 3  0.3    1  1
+ 2 to  2 1  0.1    2  2
+ 3 to  3 1  0.1    3  3
+ 4 to  4 0  0.0    4  4
+ 5 to  5 2  0.2    5  5
+ 1 to  4 1  0.1    1  4
+ 1 to  5 1  0.1    1  5
+ 2 to  4 1  0.1    2  4
+
+$summary$scalar
+         N      Prop from to
+ 1 to  1 3 0.4285714    1  1
+ 2 to  2 1 0.1428571    2  2
+ 3 to  3 1 0.1428571    3  3
+ 4 to  4 0 0.0000000    4  4
+ 5 to  5 2 0.2857143    5  5
+
+$summary$uniform
+          N       Prop from to
+1 3.4500000 0.34500000    1  1
+2 1.7833333 0.17833333    2  2
+3 1.7833333 0.17833333    3  3
+4 0.7833333 0.07833333    4  4
+5 2.2000000 0.22000000    5  5
+
+$summary$n.interval
+[1] 3
+
+$summary$n.scalar
+[1] 7
+
+$summary$avg.span
+[1] 1.9
+
+$summary$max
+[1] 5
+
+
+$minentropy
+         N Prop MinEnt
+ 1 to  1 3  0.3      1
+ 2 to  2 1  0.1      2
+ 3 to  3 1  0.1      3
+ 4 to  4 0  0.0      4
+ 5 to  5 2  0.2      5
+ 1 to  4 1  0.1      1
+ 1 to  5 1  0.1      1
+ 2 to  4 1  0.1      2
+
+$cpolr
+Call:
+cpolr(formula = fo, data = fdata, method = options$cpolr.method, 
+    debug = options$debug)
+
+No coefficients
+
+Intercepts:
+       1|2        2|3        3|5 
+-0.2822160  0.2104285  0.7647098 
+
+Residual Deviance: 20.62507 
+AIC: 26.62507 
+
+$type
+[1] "C"
+
+attr(,"class")
+[1] "anchors.rank"
+> summary(test1)
+
+ANCHORS: SUMMARY OF RELATIVE RANK ANALYSIS:
+
+Overview of C-ranks
+
+Number of cases: 3 with interval value, 7 with scalar value
+
+Maximum possible C-rank value: 5
+
+Interval on C-scale: Freqency and proportions Cs to Ce
+         N Prop MinEnt
+ 1 to  1 3  0.3      1
+ 2 to  2 1  0.1      2
+ 3 to  3 1  0.1      3
+ 4 to  4 0  0.0      4
+ 5 to  5 2  0.2      5
+ 1 to  4 1  0.1      1
+ 1 to  5 1  0.1      1
+ 2 to  4 1  0.1      2
+
+Note: MinEnt is the rank for the interval that minimizes entropy
+
+Summary of C-ranks with ties/intervals broken:
+
+Distribution of ranks omiting interval cases
+     1     2     3 4     5
+ 0.429 0.143 0.143 0 0.286
+
+Distribution of ranks allocating interval cases uniformly
+     1     2     3     4    5
+ 0.345 0.178 0.178 0.078 0.22
+
+Distribution of ranks allocating interval cases via cpolr
+and conditioning on observed ranks
+    1     2     3     4     5 
+0.389 0.194 0.194 0.000 0.222 
+
+Allocating cases to their MinEnt values produces
+  1   2   3   4   5 
+0.5 0.2 0.1 0.0 0.2 
+> 
+> cat("These equalities MUST be false incorrect length error:\n")
+These equalities MUST be false incorrect length error:
+> allequal.test(table1$Cs, test1$rank$span[,"Cs"], FALSE)
+Expecting all.equal() = FALSE  :  test is correctly FALSE 
+> cat("BUT These equalities MUST be true\n")
+BUT These equalities MUST be true
+> allequal.test(table1$Cs[-c(4,8,12)], test1$rank$span[,"Cs"])
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> allequal.test(table1$Ce[-c(4,8,12)], test1$rank$span[,"Ce"])
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> # ## using internal values returned by anchors()
+> # allequal.test(table1$Cs[-test1$omit.row], test1$rank$span[,"Cs"])
+> # allequal.test(table1$Ce[-test1$omit.row], test1$rank$span[,"Ce"])
+> # ## using internal values returned by anchors()
+> # allequal.test(table1$Cs[!test1$omit.logical], test1$rank$span[,"Cs"])
+> # allequal.test(table1$Ce[!test1$omit.logical], test1$rank$span[,"Ce"])
+> 
+> 
+> cat("TEST5: \n")
+TEST5: 
+> data(table1)
+> dta <- data.frame(y  = c(1,3,3,4,4,2,2,3,1,2,3,3,4),
++                   z1 = c(2,3,2,2,2,3,2,2,3,3,4,3,3),
++                   z2 = c(3,4,4,4,3,3,2,2,2,2,2,2,2),
++                   z3 = c(2,3,2,2,2,3,2,2,3,3,4,3,3))
+> ## can handle one vignette
+> test1 <- anchors(y ~ z1, data = dta, method="C")
+> allequal.test( test1$rank$max, 3 )
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> ## duplicates are simply ignored
+> test1 <- anchors(y ~ z1 + z1 + z1 + z1, data = dta, method="C")
+> allequal.test( test1$rank$max, 3 )
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> ## additional cases...
+> test1 <- anchors(y ~ z1 + z2, data = dta, method="C")
+> allequal.test( test1$rank$max, 5 ) ## should be TRUE
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> test1 <- anchors(y ~ z1 + z2 + z3, data = dta, method="C")
+Warning message:
+In cpolr(fo, data = fdata, method = options$cpolr.method, debug = options$debug) :
+  cpolr response must have 3 or more levels, skipping.
+
+> allequal.test( test1$rank$max, 7 ) ## should be TRUE
+Expecting all.equal() = TRUE  :  test is correctly TRUE 
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  0.548   0.032   0.585 
