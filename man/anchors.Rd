@@ -4,6 +4,7 @@
 % RCS-ID:    $Id: $
 \name{anchors}
 \alias{anchors}
+\alias{anchors.rank}
 \title{Non-parametric analysis of surveys with vignette anchors}
 \description{
   Non-parametric analysis of surveys with vignette anchors.

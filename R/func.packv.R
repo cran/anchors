@@ -67,6 +67,7 @@ packv <- function(omega) {
           name,":",len.p,"!=",len.n,"\n")
       return(NULL)
     } else {
+      tmp <- NA
       eval(parse(text=paste("tmp <- length(omega$estimated$",name,")",sep="")))
       ## do we have exclusions? 
       if (!any(name == dnames) || tmp < 1) {

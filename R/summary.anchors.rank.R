@@ -28,13 +28,13 @@ summary.anchors.rank <- function(object, ... ,
   cat("\nMaximum possible ",object$type,"-rank value: ",object$summary$max,"\n",sep="")
 
   if (!is.null(object$minentropy) && "minentropy"  %in% ties) {
-    cat("\nInterval on ",object$type,"-scale: Freqency and proportions ",object$type,"s to ",object$type,"e\n",sep="")
+    cat("\nInterval on ",object$type,"-scale: Frequency and proportions ",object$type,"s to ",object$type,"e\n",sep="")
     print( round( summary.minimum.entropy( object$minentropy ),digits) )
 
     cat("\nNote: MinEnt is the rank for the interval that minimizes entropy\n")
 
   } else {
-    cat("\nInterval on ",object$type,"-scale: Freqency and proportions ",object$type,"s to ",object$type,"e\n",sep="")
+    cat("\nInterval on ",object$type,"-scale: Frequency and proportions ",object$type,"s to ",object$type,"e\n",sep="")
     print(format(object$summary$interval[, -c(3:4)] ,digits=digits))
     cat("\n")
   }

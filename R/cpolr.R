@@ -77,10 +77,8 @@ cpolr <- function(formula, data, weights, start, ..., subset,
 
     m <- match.call(expand.dots = FALSE)
     method <- match.arg(method)
-    pfun <- switch(method, logistic = plogis, probit = pnorm,
-                   cloglog = pgumbel, cauchit = pcauchy)
-    dfun <- switch(method, logistic = dlogis, probit = dnorm,
-                   cloglog = dgumbel, cauchit = dcauchy)
+    pfun <- switch(method, logistic = plogis, probit = pnorm) #  loglog = pgumbel, cauchit = pcauchy)
+    dfun <- switch(method, logistic = dlogis, probit = dnorm) # cloglog = dgumbel, cauchit = dcauchy)
     if(is.matrix(eval.parent(m$data)))
         m$data <- as.data.frame(data)
 #    cat("D1",dim(m$data),"\n")

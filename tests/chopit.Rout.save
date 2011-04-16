@@ -1,7 +1,8 @@
 
-R version 2.8.1 (2008-12-22)
-Copyright (C) 2008 The R Foundation for Statistical Computing
+R version 2.13.0 (2011-04-13)
+Copyright (C) 2011 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -28,11 +29,11 @@ Type 'q()' to quit R.
 > ##
 > library(anchors)
 Loading required package: rgenoud
-##  rgenoud (Version 5.5-1, Build Date: 2009-03-13)
+##  rgenoud (Version 5.7-1, Build Date: 2010-08-26)
 ##  See http://sekhon.berkeley.edu/rgenoud for additional documentation.
 Loading required package: MASS
 
-##  anchors (Version 3.0-4, Build Date: 2009-07-01)
+##  anchors (Version 3.0-6, Build Date: 2011-04-16)
 ##  See http://wand.stanford.edu/anchors for additional documentation and support.
 
 > 
@@ -179,6 +180,7 @@ $tau
 
 $cpolr
 ~1
+<environment: 0xf31be0>
 
 
 Coefficients:
@@ -251,6 +253,3 @@ Gradients
 [26] -8.169708e-06 -8.479026e-06 -4.477243e-06 -3.743376e-06 -2.198868e-06
 [31] -1.378791e-06 -1.098162e-04 -1.155733e-06 -1.999213e-05
 > 
-> proc.time()
-   user  system elapsed 
-  1.704   0.024   1.770 

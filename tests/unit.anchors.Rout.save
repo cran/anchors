@@ -1,7 +1,8 @@
 
-R version 2.8.1 (2008-12-22)
-Copyright (C) 2008 The R Foundation for Statistical Computing
+R version 2.13.0 (2011-04-13)
+Copyright (C) 2011 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -25,11 +26,11 @@ Type 'q()' to quit R.
 > #########################################################################
 > library(anchors)
 Loading required package: rgenoud
-##  rgenoud (Version 5.5-1, Build Date: 2009-03-13)
+##  rgenoud (Version 5.7-1, Build Date: 2010-08-26)
 ##  See http://sekhon.berkeley.edu/rgenoud for additional documentation.
 Loading required package: MASS
 
-##  anchors (Version 3.0-4, Build Date: 2009-07-01)
+##  anchors (Version 3.0-6, Build Date: 2011-04-16)
 ##  See http://wand.stanford.edu/anchors for additional documentation and support.
 
 > cat("TEST1: Checking anchors against the 13 examples in Table 1 of King and Wand (2007)\n")
@@ -49,7 +50,7 @@ Number of cases: 4 with interval value, 9 with scalar value
 
 Maximum possible C-rank value: 5
 
-Interval on C-scale: Freqency and proportions Cs to Ce
+Interval on C-scale: Frequency and proportions Cs to Ce
          N  Prop MinEnt
  1 to  1 3 0.231      1
  2 to  2 1 0.077      2
@@ -226,7 +227,7 @@ Number of cases: 0 with interval value, 4 with scalar value
 
 Maximum possible C-rank value: 5
 
-Interval on C-scale: Freqency and proportions Cs to Ce
+Interval on C-scale: Frequency and proportions Cs to Ce
          N Prop MinEnt
  1 to  1 2  0.5      1
  2 to  2 0  0.0      2
@@ -324,16 +325,16 @@ attr(,"class")
 
 $summary
 $summary$interval
-         N      Prop from to
- 1 to  1 3 0.2727273    1  1
- 2 to  2 1 0.0909091    2  2
- 3 to  3 1 0.0909091    3  3
- 4 to  4 0 0.0000000    4  4
- 5 to  5 2 0.1818182    5  5
- 1 to  4 1 0.0909091    1  4
- 1 to  5 1 0.0909091    1  5
- 2 to  4 1 0.0909091    2  4
- 2 to  5 1 0.0909091    2  5
+         N       Prop from to
+ 1 to  1 3 0.27272727    1  1
+ 2 to  2 1 0.09090909    2  2
+ 3 to  3 1 0.09090909    3  3
+ 4 to  4 0 0.00000000    4  4
+ 5 to  5 2 0.18181818    5  5
+ 1 to  4 1 0.09090909    1  4
+ 1 to  5 1 0.09090909    1  5
+ 2 to  4 1 0.09090909    2  4
+ 2 to  5 1 0.09090909    2  5
 
 $summary$scalar
          N      Prop from to
@@ -344,12 +345,12 @@ $summary$scalar
  5 to  5 2 0.2857143    5  5
 
 $summary$uniform
-         N      Prop from to
-1 3.450000 0.3136364    1  1
-2 2.033333 0.1848485    2  2
-3 2.033333 0.1848485    3  3
-4 1.033333 0.0939394    4  4
-5 2.450000 0.2227273    5  5
+         N       Prop from to
+1 3.450000 0.31363636    1  1
+2 2.033333 0.18484848    2  2
+3 2.033333 0.18484848    3  3
+4 1.033333 0.09393939    4  4
+5 2.450000 0.22272727    5  5
 
 $summary$n.interval
 [1] 4
@@ -365,16 +366,16 @@ $summary$max
 
 
 $minentropy
-         N      Prop MinEnt
- 1 to  1 3 0.2727273      1
- 2 to  2 1 0.0909091      2
- 3 to  3 1 0.0909091      3
- 4 to  4 0 0.0000000      4
- 5 to  5 2 0.1818182      5
- 1 to  4 1 0.0909091      1
- 1 to  5 1 0.0909091      1
- 2 to  4 1 0.0909091      2
- 2 to  5 1 0.0909091      2
+         N       Prop MinEnt
+ 1 to  1 3 0.27272727      1
+ 2 to  2 1 0.09090909      2
+ 3 to  3 1 0.09090909      3
+ 4 to  4 0 0.00000000      4
+ 5 to  5 2 0.18181818      5
+ 1 to  4 1 0.09090909      1
+ 1 to  5 1 0.09090909      1
+ 2 to  4 1 0.09090909      2
+ 2 to  5 1 0.09090909      2
 
 $cpolr
 Call:
@@ -405,7 +406,7 @@ Number of cases: 4 with interval value, 7 with scalar value
 
 Maximum possible C-rank value: 5
 
-Interval on C-scale: Freqency and proportions Cs to Ce
+Interval on C-scale: Frequency and proportions Cs to Ce
          N  Prop MinEnt
  1 to  1 3 0.273      1
  2 to  2 1 0.091      2
@@ -585,7 +586,7 @@ Number of cases: 3 with interval value, 7 with scalar value
 
 Maximum possible C-rank value: 5
 
-Interval on C-scale: Freqency and proportions Cs to Ce
+Interval on C-scale: Frequency and proportions Cs to Ce
          N Prop MinEnt
  1 to  1 3  0.3      1
  2 to  2 1  0.1      2
@@ -664,6 +665,3 @@ Expecting all.equal() = TRUE  :  test is correctly TRUE
 > 
 > 
 > 
-> proc.time()
-   user  system elapsed 
-  0.548   0.032   0.585 

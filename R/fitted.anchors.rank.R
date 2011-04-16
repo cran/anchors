@@ -1,6 +1,6 @@
 #######################################################################
 ##
-## Function: fitted.anchors.rank()
+## Function: fitted.anchors()
 ## Author  : Jonathan Wand <wand(at)stanford.edu>,
 ##           http://wand.stanford.edu
 ## Created :  2008-05-01

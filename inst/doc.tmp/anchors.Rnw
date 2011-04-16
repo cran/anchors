@@ -14,8 +14,8 @@
 \newcommand{\Rfunarg}[1]{{\textit{#1}}}
 \newcommand{\R}{{\normalfont\textsf{R}}{}}
 \renewcommand{\S}{{\normalfont\textsf{S}}{}}
-\newcommand{\AnchorsVer}{3.0-4}
-\newcommand{\RVer}{2.8}
+\newcommand{\AnchorsVer}{3.0-1}
+\newcommand{\RVer}{2.4}
 \newcommand{\AnchorsDate}{\today}
 \newcommand{\ssubsection}[2]{%
   \subsection[#1]{\normalfont\scshape #1: {\tt #2}}}
@@ -74,7 +74,7 @@ urlbordercolor  = {1 .7 .1},  % The color of the box around links to URLs
 %\end{abstract}
 \end{htmlonly}
 
-\usepackage{Sweave}
+
 \begin{document}
 
 
@@ -99,6 +99,10 @@ version of this software and related materials are available at the
 \pagestyle{myheadings}
 \markboth{\sc Anchoring Vignettes in R}{\sc Wand and King}
 
+<<label=R options,echo=FALSE>>=
+options(width = 60)
+options(SweaveHooks = list(fig = function() par(mar=c(3,3,1,0.5),mgp = c(2,1,0))))
+@
 
 % \section{What is a vignette? }
 % 
@@ -128,40 +132,31 @@ and want a quick introduction/overview.  Information on installation,
 background, and examples of \Ranchors\ are provide in detail in
 subsequent sections.  All examples and objects described in this
 document assume that you have loaded the package in an \R\ session,
-\begin{Schunk}
-\begin{Sinput}
-> library(anchors)
-\end{Sinput}
-\end{Schunk}
+<<results = hide>>=
+library(anchors)
+@
 
 A list of the functions and datasets with help pages can be found using,
-\begin{Schunk}
-\begin{Sinput}
-> help(package = "anchors")
-\end{Sinput}
-\end{Schunk}
+<<eval=FALSE>>=
+help(package="anchors")
+@ 
 For a list of datasets of vignette surveys included in \Ranchors, see
-\begin{Schunk}
-\begin{Sinput}
-> data(package = "anchors")
-\end{Sinput}
-\end{Schunk}
+<<eval=FALSE>>=
+  data(package="anchors")
+@ 
 For a list of demonstrations of functions, uses of data, and
 replications of published results,
-\begin{Schunk}
-\begin{Sinput}
-> demo(package = "anchors")
-\end{Sinput}
-\end{Schunk}
-The function \code{anchors()} has two \code{method=} options
-
+<<eval=FALSE>>=
+demo(package="anchors")
+@
+The main model function is \code{anchors} which has four \code{method=} options
+  
 \begin{tabular}{ll}
+  order       & Calculates frequency of vignette orderings\\
   B   & non-parametric rank method from \cite{wand:2007a}\\
   C   & non-parametric rank method from \cite{king:2004} and \cite{king.wand:2007}\\
+  chopit      & Parametric model (Compound Hierarchical Ordered Probit) \\
 \end{tabular}
-
-There are two other key supporting functions that will be discussed in
-turn: \code{anchors.order()} and \code{chopit()}
 
 \noindent
 For methods \code{B} and \code{C}, one can also specify that all
@@ -190,11 +185,9 @@ table1src  & Specific response values that have inequalities to create table1\\
 
 \noindent
 Any of these can be loaded with \code{data()}, for example,
-\begin{Schunk}
-\begin{Sinput}
-> data(freedom)
-\end{Sinput}
-\end{Schunk}
+<<eval=FALSE>>=
+data(freedom)
+@ 
 
 Demonstration files are available, both to provide examples of the use
 of functions and as an aid to those who would simply like to
@@ -217,11 +210,9 @@ chopit.mexchn   &   King et al (2004) Table 2 (non-linear taus)\\
 \end{tabular}
 
 Any of these can be invoked with \code{demo()}, for example,
-\begin{Schunk}
-\begin{Sinput}
-> demo(anchors.freedom)
-\end{Sinput}
-\end{Schunk}
+<<eval=FALSE>>=
+demo(anchors.freedom)
+@ 
 
 
 \section{Getting Started: Installation and the Basics}
@@ -261,26 +252,20 @@ manually by
 
 Once the \Ranchors\ package is installed, and an \R\ session is begun, 
 the package is made available by invoking on the \R\ command-line,
-\begin{Schunk}
-\begin{Sinput}
-> library(anchors)
-\end{Sinput}
-\end{Schunk}
+<<>>=
+library(anchors)
+@
 
 The full list of functions and datasets made available by \Ranchors
 can be found by invoking at any time,
-\begin{Schunk}
-\begin{Sinput}
-> help(package = "anchors")
-\end{Sinput}
-\end{Schunk}
+<<eval=FALSE>>=
+help(package="anchors")
+@
 and each individual object with a help file can be queried
 individually, for example,
-\begin{Schunk}
-\begin{Sinput}
-> help(anchors)
-\end{Sinput}
-\end{Schunk}
+<<eval=FALSE>>=
+help(anchors)
+@ 
 
 \section{Introduction to Anchoring Vignettes}
 
@@ -436,105 +421,12 @@ This example again first loads the library and example dataset, and
 then \code{anchors()} calculates $C$ for each individual.  In the
 non-parametric estimation, only \emph{one} self-question and
 corresponding set of vignettes are analyzed at a time.
-\begin{Schunk}
-\begin{Sinput}
-> library(anchors)
-> data(freedom)
-> a1 <- anchors(self ~ vign2 + vign3 + vign4 + vign5 + 
-+     vign6, freedom, method = "C")
-> summary(a1)
-\end{Sinput}
-\begin{Soutput}
-ANCHORS: SUMMARY OF RELATIVE RANK ANALYSIS:
-
-Overview of C-ranks
-
-Number of cases: 1763 with interval value, 1737 with scalar value
-
-Maximum possible C-rank value: 11
-
-Interval on C-scale: Frequency and proportions Cs to Ce
-           N  Prop MinEnt
- 1 to  1 387 0.111      1
- 2 to  2 279 0.080      2
- 3 to  3 336 0.096      3
- 4 to  4  81 0.023      4
- 5 to  5  59 0.017      5
- 6 to  6  28 0.008      6
- 7 to  7  11 0.003      7
- 8 to  8  31 0.009      8
- 9 to  9  22 0.006      9
-10 to 10 164 0.047     10
-11 to 11 339 0.097     11
- 1 to  4  16 0.005      1
- 1 to  5  12 0.003      1
- 1 to  6  25 0.007      6
- 1 to  7   5 0.001      6
- 1 to  8  31 0.009      6
- 1 to  9   5 0.001      6
- 1 to 10  32 0.009      6
- 1 to 11  19 0.005      6
- 2 to  4  15 0.004      3
- 2 to  5  11 0.003      3
- 2 to  6  22 0.006      6
- 2 to  7   4 0.001      6
- 2 to  8  51 0.015      6
- 2 to  9  19 0.005      6
- 2 to 10 177 0.051      6
- 2 to 11  91 0.026      6
- 3 to  6  31 0.009      6
- 3 to  7   3 0.001      6
- 3 to  8  93 0.027      6
- 3 to  9  29 0.008      6
- 3 to 10  16 0.005      6
- 3 to 11  11 0.003      6
- 4 to  6  16 0.005      6
- 4 to  7   2 0.001      6
- 4 to  8  94 0.027      6
- 4 to  9  39 0.011      6
- 4 to 10 175 0.050      6
- 4 to 11  39 0.011      6
- 5 to  8  80 0.023      6
- 5 to  9  38 0.011      6
- 5 to 10   9 0.003      6
- 5 to 11   6 0.002      6
- 6 to  8 107 0.031      6
- 6 to  9  61 0.017      6
- 6 to 10 242 0.069      6
- 6 to 11  52 0.015      6
- 7 to 10   1 0.000     10
- 7 to 11   1 0.000     11
- 8 to 10  44 0.013     10
- 8 to 11  39 0.011     11
-
-Note: MinEnt is the rank for the interval that minimizes entropy
-
-Summary of C-ranks with ties/intervals broken:
-
-Distribution of ranks omiting interval cases
-     1     2     3     4     5     6     7     8     9
- 0.223 0.161 0.193 0.047 0.034 0.016 0.006 0.018 0.013
-    10    11
- 0.094 0.195
-
-Distribution of ranks allocating interval cases uniformly
-     1   2     3    4    5    6     7     8    9   10    11
- 0.116 0.1 0.125 0.07 0.07 0.09 0.079 0.091 0.06 0.09 0.107
-
-Distribution of ranks allocating interval cases via cpolr
-and conditioning on observed ranks
-    1     2     3     4     5     6     7     8     9    10 
-0.118 0.103 0.142 0.051 0.045 0.138 0.025 0.155 0.017 0.095 
-   11 
-0.110 
-
-Allocating cases to their MinEnt values produces
-    1     2     3     4     5     6     7     8     9    10 
-0.119 0.080 0.103 0.023 0.017 0.472 0.003 0.009 0.006 0.060 
-   11 
-0.108 
-\end{Soutput}
-\end{Schunk}
+<<>>=
+library(anchors)
+data(freedom)
+a1 <- anchors(self ~ vign2+vign3+vign4+vign5+vign6, freedom, method="C")
+summary(a1)
+@
 The names of vignettes must be passed to the function in the same
 order as the direction of the responses.  In the example,
 \code{vign2} is in the same (highest) direction as the response
@@ -547,65 +439,18 @@ If \texttt{anchors} produces many ties you should check that you
 passed the vignettes in the correct order, but we also offer a
 function that investigates the ordering of vignettes in detail.
 
-\ssubsection{Example Code}{anchors.order()}
+\ssubsection{Example Code}{anchors(..., method="order")}
 
-The function \code{anchors.order()}, and the associated methods
+The function \code{anchors(...,method="order")}, and the associated methods
 \code{summary.anchors.order} and \code{barplot.anchors.order}
 investigate the relationship between vignette responses {\em without}
 reference to the self-assessment question.
 
-\begin{Schunk}
-\begin{Sinput}
-> vo1 <- anchors.order(~vign2 + vign3 + vign4 + 
-+     vign5 + vign6, freedom)
-> summary(vo1, top = 10, digits = 3)
-\end{Sinput}
-\begin{Soutput}
-ANCHORS: SUMMARY OF VIGNETTE ORDERING
-
-Treatment of ties: represent as sets 
-
-Number of cases with at least two distinct vignette responses: 3223 
-and with no violations of natural ordering: 1178 
-and with no more than 1 violation of natural ordering: 1959 
-and with no more than 2 violation of natural ordering: 2621 
-
-Proportion of cases a vignette (row) is less than another (column):
-     <1    <2    <3    <4    <5
-1    NA 0.663 0.732 0.707 0.754
-2 0.121    NA 0.457 0.363 0.575
-3 0.080 0.138    NA 0.183 0.374
-4 0.068 0.198 0.339    NA 0.495
-5 0.070 0.081 0.100 0.103    NA
-
-Upper tri =     p_{ij} - p_{ji} (negative values suggest misorderings)
-Lower tri = 1 - p_{ij} - p_{ji} (big numbers means many ties)
-      1     2     3      4     5
-1    NA 0.542 0.652  0.639 0.684
-2 0.215    NA 0.320  0.165 0.494
-3 0.188 0.440    NA -0.156 0.275
-4 0.405 0.477 0.345     NA 0.392
-5 0.225 0.176 0.526  0.402    NA
-
-Top 10 orderings (out of 262 unique orderings):
-
-              Frequency Proportion Ndistinct Nviolation
-1,{2,3,4,5}         309     0.0883         2          0
-{1,2,3,4,5}         277     0.0791         1          0
-1,2,{3,4,5}         221     0.0631         3          0
-1,{2,4},{3,5}       212     0.0606         3          1
-1,2,{3,4},5         178     0.0509         4          0
-1,{2,3,4},5         177     0.0506         3          0
-1,4,{2,3,5}         157     0.0449         3          2
-1,2,4,{3,5}         106     0.0303         4          1
-1,{2,4},3,5          96     0.0274         4          1
-1,4,2,{3,5}          73     0.0209         4          2
-\end{Soutput}
-\begin{Sinput}
-> barplot(vo1)
-\end{Sinput}
-\end{Schunk}
-\includegraphics{anchors-vignette-order}
+<<label=vignette-order,fig=TRUE>>=
+vo1<-anchors(~vign2+vign3+vign4+vign5+vign6, freedom, method="order")
+summary(vo1,top=10,digits=3,verbose=TRUE)
+barplot(vo1)
+@ 
 
 Details of how to interpret and use the output of the summary are
 provided in \cite{wand.ea:2007}, where it is discussed in detail how
@@ -615,105 +460,10 @@ than \code{vign5}.
 
 In light of this it is worth reestimating $C$ using the consensus
 ordering of the vignettes,
-\begin{Schunk}
-\begin{Sinput}
-> a2 <- anchors(self ~ vign2 + vign3 + vign5 + vign4 + 
-+     vign6, freedom, method = "C")
-> summary(a2)
-\end{Sinput}
-\begin{Soutput}
-ANCHORS: SUMMARY OF RELATIVE RANK ANALYSIS:
-
-Overview of C-ranks
-
-Number of cases: 1654 with interval value, 1846 with scalar value
-
-Maximum possible C-rank value: 11
-
-Interval on C-scale: Frequency and proportions Cs to Ce
-           N  Prop MinEnt
- 1 to  1 387 0.111      1
- 2 to  2 279 0.080      2
- 3 to  3 336 0.096      3
- 4 to  4  81 0.023      4
- 5 to  5  59 0.017      5
- 6 to  6  80 0.023      6
- 7 to  7  38 0.011      7
- 8 to  8  61 0.017      8
- 9 to  9  22 0.006      9
-10 to 10 164 0.047     10
-11 to 11 339 0.097     11
- 1 to  4  16 0.005      1
- 1 to  5  12 0.003      1
- 1 to  6  20 0.006      6
- 1 to  7   1 0.000      6
- 1 to  8  39 0.011      6
- 1 to  9   6 0.002      6
- 1 to 10  32 0.009      6
- 1 to 11  19 0.005      6
- 2 to  4  15 0.004      3
- 2 to  5  11 0.003      3
- 2 to  6  31 0.009      6
- 2 to  7   6 0.002      6
- 2 to  8  51 0.015      6
- 2 to  9   8 0.002      6
- 2 to 10 177 0.051      6
- 2 to 11  91 0.026      6
- 3 to  6  63 0.018      6
- 3 to  7  19 0.005      6
- 3 to  8  67 0.019      6
- 3 to  9   7 0.002      6
- 3 to 10  16 0.005      6
- 3 to 11  11 0.003      6
- 4 to  6  59 0.017      6
- 4 to  7  17 0.005      6
- 4 to  8  60 0.017      6
- 4 to  9  15 0.004      6
- 4 to 10 175 0.050      6
- 4 to 11  39 0.011      6
- 5 to  8  28 0.008      6
- 5 to  9  11 0.003      6
- 5 to 10   9 0.003      6
- 5 to 11   6 0.002      6
- 6 to  8 107 0.031      6
- 6 to  9  31 0.009      6
- 6 to 10 158 0.045      6
- 6 to 11  50 0.014      6
- 7 to 10   3 0.001     10
- 7 to 11   1 0.000     11
- 8 to 10 126 0.036     10
- 8 to 11  41 0.012     11
-
-Note: MinEnt is the rank for the interval that minimizes entropy
-
-Summary of C-ranks with ties/intervals broken:
-
-Distribution of ranks omiting interval cases
-    1     2     3     4     5     6     7     8     9    10
- 0.21 0.151 0.182 0.044 0.032 0.043 0.021 0.033 0.012 0.089
-    11
- 0.184
-
-Distribution of ranks allocating interval cases uniformly
-     1   2     3     4     5     6     7    8     9    10
- 0.116 0.1 0.127 0.073 0.068 0.096 0.072 0.09 0.057 0.093
-    11
- 0.107
-
-Distribution of ranks allocating interval cases via cpolr
-and conditioning on observed ranks
-    1     2     3     4     5     6     7     8     9    10 
-0.118 0.103 0.144 0.056 0.042 0.147 0.037 0.120 0.016 0.107 
-   11 
-0.110 
-
-Allocating cases to their MinEnt values produces
-    1     2     3     4     5     6     7     8     9    10 
-0.119 0.080 0.103 0.023 0.017 0.431 0.011 0.017 0.006 0.084 
-   11 
-0.109 
-\end{Soutput}
-\end{Schunk}
+<<>>=
+a2 <- anchors(self ~ vign2+vign3+vign5+vign4+vign6, freedom, method="C")
+summary(a2)
+@
 Changing the assumed ordering of the vignettes increased the number of
 cases without any order violation by 60 percent.  With respect to the
 top sets of types of ordering,
@@ -734,92 +484,16 @@ King (2007) is straightforward.  The \code{anchors(...,combn=TRUE)}
 calculates statistics of interest, including entropy measures, for
 every ordered combination of vignettes.  For more details, please see {\tt
 help(anchors.combn)} in R and \cite{king.wand:2007}.
-\begin{Schunk}
-\begin{Sinput}
-> data(freedom)
-> fo <- list(self = self ~ 1, vign = cbind(vign1, 
-+     vign3, vign6) ~ 1, cpolr = ~as.factor(country) + 
-+     sex + age + educ)
-> ent <- anchors(fo, data = freedom, method = "C", 
-+     combn = TRUE)
-\end{Sinput}
-\end{Schunk}
-\begin{Schunk}
-\begin{Sinput}
-> summary(ent, digits = 3)
-\end{Sinput}
-\begin{Soutput}
-ANCHORS: SUMMARY OF RELATIVE RANK ANALYSIS:
-
-Overview of C-ranks
-
-Number of cases: 522 with interval value, 2925 with scalar value
-
-Maximum possible C-rank value: 7
-
-Interval on C-scale: Frequency and proportions Cs to Ce
-           N  Prop MinEnt
- 1 to  1 496 0.144      1
- 2 to  2 225 0.065      2
- 3 to  3 492 0.143      3
- 4 to  4 236 0.068      4
- 5 to  5 497 0.144      5
- 6 to  6 489 0.142      6
- 7 to  7 490 0.142      7
- 1 to  4  22 0.006      3
- 1 to  5   1 0.000      5
- 1 to  6  28 0.008      5
- 1 to  7  12 0.003      5
- 2 to  4  39 0.011      3
- 2 to  5  10 0.003      5
- 2 to  6 124 0.036      5
- 2 to  7  31 0.009      5
- 3 to  6   9 0.003      5
- 3 to  7   9 0.003      5
- 4 to  6 193 0.056      5
- 4 to  7  44 0.013      5
-
-Note: MinEnt is the rank for the interval that minimizes entropy
-
-Summary of C-ranks with ties/intervals broken:
-
-Distribution of ranks omiting interval cases
-    1     2     3     4    5     6     7
- 0.17 0.077 0.168 0.081 0.17 0.167 0.168
-
-Distribution of ranks allocating interval cases uniformly
-     1     2     3     4     5     6     7
- 0.147 0.082 0.161 0.108 0.179 0.175 0.148
-
-Distribution of ranks allocating interval cases via cpolr
-and conditioning on observed ranks
-    1     2     3     4     5     6     7 
-0.148 0.075 0.165 0.094 0.187 0.183 0.148 
-
-Allocating cases to their MinEnt values produces
-    1     2     3     4     5     6     7 
-0.144 0.065 0.160 0.068 0.278 0.142 0.142 
-
-Summary of entropy and intervals by subsets of vignettes:
-
-  Vignettes Estimated entropy Minimum entropy
-1       123             1.903           1.844
-4        12             1.450           1.430
-3        13             1.490           1.465
-2        23             1.527           1.489
-7         1             0.795           0.795
-6         3             0.959           0.959
-5         2             1.044           1.044
-  Interval Cases Span avg. Max. rank
-1            522     1.471         7
-4            220     1.151         5
-3            195     1.137         5
-2            418     1.285         5
-7              0     1.000         3
-6              0     1.000         3
-5              0     1.000         3
-\end{Soutput}
-\end{Schunk}
+<<results = hide>>=
+data(freedom)
+fo <- list(self = self ~ 1,
+           vign = cbind(vign1,vign3,vign6) ~ 1, 
+           cpolr= ~ as.factor(country) + sex + age + educ)
+ent <- anchors(fo, data = freedom, method="C", combn=TRUE)
+@ 
+<<>>=
+summary(ent,digits=3)
+@ 
 One important feature to be noted about including
 \code{cpolr=} variables is that cases with any missing value in the
 covariates will be listwise deleted for both both the estimated and
@@ -829,12 +503,9 @@ variables (if any) are included in \code{cpolr=}.
 
 The {\tt plot()} method is described in
 \code{help(plot.anchors.rank)}, and an example is given here,
-\begin{Schunk}
-\begin{Sinput}
-> plot(ent)
-\end{Sinput}
-\end{Schunk}
-\includegraphics{anchors-entropy1}
+<<results = hide,label=entropy1,fig=TRUE>>=
+plot(ent)
+@ 
 % <<results = hide,label=entropy2,fig=TRUE>>=
 % plot(ent,xy=c("minimum","interval")
 % @ 
@@ -1045,14 +716,11 @@ The \code{chopit()} function provided by \pkg{anchors} at it's most
 basic simply requires specifying the formula's defining $y$s, $z$s,
 and $\tau$s.  For example, using variables from the
 \code{data(freedom)} dataset, we have the {\em named} list.
-\begin{Schunk}
-\begin{Sinput}
-> fo <- list(self = self ~ sex + age + educ + factor(country), 
-+     vign = cbind(vign1, vign2, vign3, vign4, vign5, 
-+         vign6) ~ 1, tau = ~sex + age + educ + 
-+         factor(country))
-\end{Sinput}
-\end{Schunk}
+<<>>=
+fo <- list(self =  self ~ sex + age + educ + factor(country) ,
+             vign = cbind(vign1,vign2,vign3,vign4,vign5,vign6) ~ 1 ,
+             tau  =       ~ sex + age + educ + factor(country) )
+@ 
 The names \code{self=}, \code{vign=}, and \code{tau=} as written, are
 required.  On the LHS of the equality signs are the variables of the
 dataset that specify the details of the models as for other models
@@ -1071,98 +739,13 @@ without a LHS variable.
 
 Beyond the formula and data, the rest will be set by default in the
 basic invocation,
-\begin{Schunk}
-\begin{Sinput}
-> out <- chopit(fo, data = freedom)
-\end{Sinput}
-\end{Schunk}
+<<results = hide>>=
+out  <- anchors( fo, data=freedom, method="chopit")
+@ 
 which can be summarized by the \code{summary} method,
-\begin{Schunk}
-\begin{Sinput}
-> summary(out)
-\end{Sinput}
-\begin{Soutput}
-ANCHORS: SUMMARY OF RELATIVE CHOPIT ANALYSIS:
-
-Model formula:
-$self
-self ~ sex + age + educ + factor(country)
-
-$vign
-cbind(vign1, vign2, vign3, vign4, vign5, vign6) ~ 1
-
-$tau
-~sex + age + educ + factor(country)
-
-$cpolr
-~1
-<environment: 0x7bb8a8>
-
-
-Coefficients:
-                                    coeff     se
-gamma.cut1.(Intercept)            -1.6697 0.0774
-gamma.cut1.sex                     0.0570 0.0228
-gamma.cut1.age                    -0.0028 0.0007
-gamma.cut1.educ                    0.0109 0.0068
-gamma.cut1.factor(country)Eurasia  0.0447 0.0504
-gamma.cut1.factor(country)Oceania -0.1262 0.0309
-gamma.cut2.(Intercept)             0.6655 0.0388
-gamma.cut2.sex                    -0.0426 0.0205
-gamma.cut2.age                     0.0013 0.0006
-gamma.cut2.educ                   -0.0140 0.0061
-gamma.cut2.factor(country)Eurasia -0.0286 0.0449
-gamma.cut2.factor(country)Oceania  0.0260 0.0274
-gamma.cut3.(Intercept)             0.7068 0.0319
-gamma.cut3.sex                    -0.0211 0.0167
-gamma.cut3.age                    -0.0001 0.0005
-gamma.cut3.educ                    0.0112 0.0051
-gamma.cut3.factor(country)Eurasia  0.0250 0.0374
-gamma.cut3.factor(country)Oceania -0.0985 0.0218
-gamma.cut4.(Intercept)             0.5937 0.0294
-gamma.cut4.sex                     0.0436 0.0159
-gamma.cut4.age                     0.0007 0.0005
-gamma.cut4.educ                    0.0163 0.0049
-gamma.cut4.factor(country)Eurasia  0.0605 0.0365
-gamma.cut4.factor(country)Oceania  0.0166 0.0211
-sigma.random.effect                1.0000    NaN
-sigma.self                         1.0000    NaN
-sigma.vign1                        0.7951 0.0183
-sigma.vign2                        0.9974 0.0239
-sigma.vign3                        0.7546 0.0173
-sigma.vign4                        0.8336 0.0208
-sigma.vign5                        0.7246 0.0171
-sigma.vign6                        1.3307 0.0420
-theta.vign1                       -1.0863 0.0721
-theta.vign2                       -1.2051 0.0734
-theta.vign3                       -0.2478 0.0706
-theta.vign4                        0.1660 0.0715
-theta.vign5                       -0.0562 0.0706
-theta.vign6                        0.9519 0.0820
-beta.(Intercept)                   0.0000    NaN
-beta.sex                           0.1434 0.0388
-beta.age                          -0.0019 0.0012
-beta.educ                         -0.0569 0.0117
-beta.factor(country)Eurasia        0.4600 0.0897
-beta.factor(country)Oceania       -0.7019 0.0517
-
--Log-likelihood of CHOPIT:  32421.69 
-
-Partition of CHOPIT -Log-likelihood by question:
-                 -LL    N
-Self (self) 5154.965 3447
-vign1       5032.314 3447
-vign2       5207.052 3447
-vign3       4766.234 3447
-vign4       4340.710 3447
-vign5       4485.543 3447
-vign6       3434.877 3447
-
-Number of cases that contribute at least partially to likelihoods:
-   a) in self-responses: 3447 
-   b) in vign-responses: 3447 
-\end{Soutput}
-\end{Schunk}
+<<>>=
+summary(out)
+@ 
 
 The default invocation uses the the ordinal probit normalization,
 which identifies/normalizes the model by omitting the intercept in

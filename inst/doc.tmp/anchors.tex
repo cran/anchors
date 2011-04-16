@@ -14,8 +14,8 @@
 \newcommand{\Rfunarg}[1]{{\textit{#1}}}
 \newcommand{\R}{{\normalfont\textsf{R}}{}}
 \renewcommand{\S}{{\normalfont\textsf{S}}{}}
-\newcommand{\AnchorsVer}{3.0-4}
-\newcommand{\RVer}{2.8}
+\newcommand{\AnchorsVer}{3.0-1}
+\newcommand{\RVer}{2.4}
 \newcommand{\AnchorsDate}{\today}
 \newcommand{\ssubsection}[2]{%
   \subsection[#1]{\normalfont\scshape #1: {\tt #2}}}
@@ -74,7 +74,8 @@ urlbordercolor  = {1 .7 .1},  % The color of the box around links to URLs
 %\end{abstract}
 \end{htmlonly}
 
-\usepackage{Sweave}
+
+\usepackage{/usr/local/lib/R/share/texmf/Sweave}
 \begin{document}
 
 
@@ -153,15 +154,14 @@ replications of published results,
 > demo(package = "anchors")
 \end{Sinput}
 \end{Schunk}
-The function \code{anchors()} has two \code{method=} options
-
+The main model function is \code{anchors} which has four \code{method=} options
+  
 \begin{tabular}{ll}
+  order       & Calculates frequency of vignette orderings\\
   B   & non-parametric rank method from \cite{wand:2007a}\\
   C   & non-parametric rank method from \cite{king:2004} and \cite{king.wand:2007}\\
+  chopit      & Parametric model (Compound Hierarchical Ordered Probit) \\
 \end{tabular}
-
-There are two other key supporting functions that will be discussed in
-turn: \code{anchors.order()} and \code{chopit()}
 
 \noindent
 For methods \code{B} and \code{C}, one can also specify that all
@@ -453,86 +453,59 @@ Number of cases: 1763 with interval value, 1737 with scalar value
 
 Maximum possible C-rank value: 11
 
-Interval on C-scale: Frequency and proportions Cs to Ce
-           N  Prop MinEnt
- 1 to  1 387 0.111      1
- 2 to  2 279 0.080      2
- 3 to  3 336 0.096      3
- 4 to  4  81 0.023      4
- 5 to  5  59 0.017      5
- 6 to  6  28 0.008      6
- 7 to  7  11 0.003      7
- 8 to  8  31 0.009      8
- 9 to  9  22 0.006      9
-10 to 10 164 0.047     10
-11 to 11 339 0.097     11
- 1 to  4  16 0.005      1
- 1 to  5  12 0.003      1
- 1 to  6  25 0.007      6
- 1 to  7   5 0.001      6
- 1 to  8  31 0.009      6
- 1 to  9   5 0.001      6
- 1 to 10  32 0.009      6
- 1 to 11  19 0.005      6
- 2 to  4  15 0.004      3
- 2 to  5  11 0.003      3
- 2 to  6  22 0.006      6
- 2 to  7   4 0.001      6
- 2 to  8  51 0.015      6
- 2 to  9  19 0.005      6
- 2 to 10 177 0.051      6
- 2 to 11  91 0.026      6
- 3 to  6  31 0.009      6
- 3 to  7   3 0.001      6
- 3 to  8  93 0.027      6
- 3 to  9  29 0.008      6
- 3 to 10  16 0.005      6
- 3 to 11  11 0.003      6
- 4 to  6  16 0.005      6
- 4 to  7   2 0.001      6
- 4 to  8  94 0.027      6
- 4 to  9  39 0.011      6
- 4 to 10 175 0.050      6
- 4 to 11  39 0.011      6
- 5 to  8  80 0.023      6
- 5 to  9  38 0.011      6
- 5 to 10   9 0.003      6
- 5 to 11   6 0.002      6
- 6 to  8 107 0.031      6
- 6 to  9  61 0.017      6
- 6 to 10 242 0.069      6
- 6 to 11  52 0.015      6
- 7 to 10   1 0.000     10
- 7 to 11   1 0.000     11
- 8 to 10  44 0.013     10
- 8 to 11  39 0.011     11
-
-Note: MinEnt is the rank for the interval that minimizes entropy
-
-Summary of C-ranks with ties/intervals broken:
-
-Distribution of ranks omiting interval cases
-     1     2     3     4     5     6     7     8     9
- 0.223 0.161 0.193 0.047 0.034 0.016 0.006 0.018 0.013
-    10    11
- 0.094 0.195
-
-Distribution of ranks allocating interval cases uniformly
-     1   2     3    4    5    6     7     8    9   10    11
- 0.116 0.1 0.125 0.07 0.07 0.09 0.079 0.091 0.06 0.09 0.107
-
-Distribution of ranks allocating interval cases via cpolr
-and conditioning on observed ranks
-    1     2     3     4     5     6     7     8     9    10 
-0.118 0.103 0.142 0.051 0.045 0.138 0.025 0.155 0.017 0.095 
-   11 
-0.110 
-
-Allocating cases to their MinEnt values produces
-    1     2     3     4     5     6     7     8     9    10 
-0.119 0.080 0.103 0.023 0.017 0.472 0.003 0.009 0.006 0.060 
-   11 
-0.108 
+Interval on C-scale: Freqency and proportions Cs to Ce
+           N     Prop
+ 1 to  1 387 0.110571
+ 2 to  2 279 0.079714
+ 3 to  3 336 0.096000
+ 4 to  4  81 0.023143
+ 5 to  5  59 0.016857
+ 6 to  6  28 0.008000
+ 7 to  7  11 0.003143
+ 8 to  8  31 0.008857
+ 9 to  9  22 0.006286
+10 to 10 164 0.046857
+11 to 11 339 0.096857
+ 1 to  4  16 0.004571
+ 1 to  5  12 0.003429
+ 1 to  6  25 0.007143
+ 1 to  7   5 0.001429
+ 1 to  8  31 0.008857
+ 1 to  9   5 0.001429
+ 1 to 10  32 0.009143
+ 1 to 11  19 0.005429
+ 2 to  4  15 0.004286
+ 2 to  5  11 0.003143
+ 2 to  6  22 0.006286
+ 2 to  7   4 0.001143
+ 2 to  8  51 0.014571
+ 2 to  9  19 0.005429
+ 2 to 10 177 0.050571
+ 2 to 11  91 0.026000
+ 3 to  6  31 0.008857
+ 3 to  7   3 0.000857
+ 3 to  8  93 0.026571
+ 3 to  9  29 0.008286
+ 3 to 10  16 0.004571
+ 3 to 11  11 0.003143
+ 4 to  6  16 0.004571
+ 4 to  7   2 0.000571
+ 4 to  8  94 0.026857
+ 4 to  9  39 0.011143
+ 4 to 10 175 0.050000
+ 4 to 11  39 0.011143
+ 5 to  8  80 0.022857
+ 5 to  9  38 0.010857
+ 5 to 10   9 0.002571
+ 5 to 11   6 0.001714
+ 6 to  8 107 0.030571
+ 6 to  9  61 0.017429
+ 6 to 10 242 0.069143
+ 6 to 11  52 0.014857
+ 7 to 10   1 0.000286
+ 7 to 11   1 0.000286
+ 8 to 10  44 0.012571
+ 8 to 11  39 0.011143
 \end{Soutput}
 \end{Schunk}
 The names of vignettes must be passed to the function in the same
@@ -547,59 +520,37 @@ If \texttt{anchors} produces many ties you should check that you
 passed the vignettes in the correct order, but we also offer a
 function that investigates the ordering of vignettes in detail.
 
-\ssubsection{Example Code}{anchors.order()}
+\ssubsection{Example Code}{anchors(..., method="order")}
 
-The function \code{anchors.order()}, and the associated methods
+The function \code{anchors(...,method="order")}, and the associated methods
 \code{summary.anchors.order} and \code{barplot.anchors.order}
 investigate the relationship between vignette responses {\em without}
 reference to the self-assessment question.
 
 \begin{Schunk}
 \begin{Sinput}
-> vo1 <- anchors.order(~vign2 + vign3 + vign4 + 
-+     vign5 + vign6, freedom)
-> summary(vo1, top = 10, digits = 3)
+> vo1 <- anchors(~vign2 + vign3 + vign4 + vign5 + 
++     vign6, freedom, method = "order")
+> summary(vo1, top = 10, digits = 3, verbose = TRUE)
 \end{Sinput}
 \begin{Soutput}
 ANCHORS: SUMMARY OF VIGNETTE ORDERING
 
 Treatment of ties: represent as sets 
 
-Number of cases with at least two distinct vignette responses: 3223 
-and with no violations of natural ordering: 1178 
-and with no more than 1 violation of natural ordering: 1959 
-and with no more than 2 violation of natural ordering: 2621 
-
-Proportion of cases a vignette (row) is less than another (column):
-     <1    <2    <3    <4    <5
-1    NA 0.663 0.732 0.707 0.754
-2 0.121    NA 0.457 0.363 0.575
-3 0.080 0.138    NA 0.183 0.374
-4 0.068 0.198 0.339    NA 0.495
-5 0.070 0.081 0.100 0.103    NA
-
-Upper tri =     p_{ij} - p_{ji} (negative values suggest misorderings)
-Lower tri = 1 - p_{ij} - p_{ji} (big numbers means many ties)
-      1     2     3      4     5
-1    NA 0.542 0.652  0.639 0.684
-2 0.215    NA 0.320  0.165 0.494
-3 0.188 0.440    NA -0.156 0.275
-4 0.405 0.477 0.345     NA 0.392
-5 0.225 0.176 0.526  0.402    NA
-
 Top 10 orderings (out of 262 unique orderings):
 
-              Frequency Proportion Ndistinct Nviolation
-1,{2,3,4,5}         309     0.0883         2          0
-{1,2,3,4,5}         277     0.0791         1          0
-1,2,{3,4,5}         221     0.0631         3          0
-1,{2,4},{3,5}       212     0.0606         3          1
-1,2,{3,4},5         178     0.0509         4          0
-1,{2,3,4},5         177     0.0506         3          0
-1,4,{2,3,5}         157     0.0449         3          2
-1,2,4,{3,5}         106     0.0303         4          1
-1,{2,4},3,5          96     0.0274         4          1
-1,4,2,{3,5}          73     0.0209         4          2
+              Freqency Proportion
+1,{2,3,4,5}        309     0.0883
+{1,2,3,4,5}        277     0.0791
+1,2,{3,4,5}        221     0.0631
+1,{2,4},{3,5}      212     0.0606
+1,2,{3,4},5        178     0.0509
+1,{2,3,4},5        177     0.0506
+1,4,{2,3,5}        157     0.0449
+1,2,4,{3,5}        106     0.0303
+1,{2,4},3,5         96     0.0274
+1,4,2,{3,5}         73     0.0209
 \end{Soutput}
 \begin{Sinput}
 > barplot(vo1)
@@ -630,88 +581,59 @@ Number of cases: 1654 with interval value, 1846 with scalar value
 
 Maximum possible C-rank value: 11
 
-Interval on C-scale: Frequency and proportions Cs to Ce
-           N  Prop MinEnt
- 1 to  1 387 0.111      1
- 2 to  2 279 0.080      2
- 3 to  3 336 0.096      3
- 4 to  4  81 0.023      4
- 5 to  5  59 0.017      5
- 6 to  6  80 0.023      6
- 7 to  7  38 0.011      7
- 8 to  8  61 0.017      8
- 9 to  9  22 0.006      9
-10 to 10 164 0.047     10
-11 to 11 339 0.097     11
- 1 to  4  16 0.005      1
- 1 to  5  12 0.003      1
- 1 to  6  20 0.006      6
- 1 to  7   1 0.000      6
- 1 to  8  39 0.011      6
- 1 to  9   6 0.002      6
- 1 to 10  32 0.009      6
- 1 to 11  19 0.005      6
- 2 to  4  15 0.004      3
- 2 to  5  11 0.003      3
- 2 to  6  31 0.009      6
- 2 to  7   6 0.002      6
- 2 to  8  51 0.015      6
- 2 to  9   8 0.002      6
- 2 to 10 177 0.051      6
- 2 to 11  91 0.026      6
- 3 to  6  63 0.018      6
- 3 to  7  19 0.005      6
- 3 to  8  67 0.019      6
- 3 to  9   7 0.002      6
- 3 to 10  16 0.005      6
- 3 to 11  11 0.003      6
- 4 to  6  59 0.017      6
- 4 to  7  17 0.005      6
- 4 to  8  60 0.017      6
- 4 to  9  15 0.004      6
- 4 to 10 175 0.050      6
- 4 to 11  39 0.011      6
- 5 to  8  28 0.008      6
- 5 to  9  11 0.003      6
- 5 to 10   9 0.003      6
- 5 to 11   6 0.002      6
- 6 to  8 107 0.031      6
- 6 to  9  31 0.009      6
- 6 to 10 158 0.045      6
- 6 to 11  50 0.014      6
- 7 to 10   3 0.001     10
- 7 to 11   1 0.000     11
- 8 to 10 126 0.036     10
- 8 to 11  41 0.012     11
-
-Note: MinEnt is the rank for the interval that minimizes entropy
-
-Summary of C-ranks with ties/intervals broken:
-
-Distribution of ranks omiting interval cases
-    1     2     3     4     5     6     7     8     9    10
- 0.21 0.151 0.182 0.044 0.032 0.043 0.021 0.033 0.012 0.089
-    11
- 0.184
-
-Distribution of ranks allocating interval cases uniformly
-     1   2     3     4     5     6     7    8     9    10
- 0.116 0.1 0.127 0.073 0.068 0.096 0.072 0.09 0.057 0.093
-    11
- 0.107
-
-Distribution of ranks allocating interval cases via cpolr
-and conditioning on observed ranks
-    1     2     3     4     5     6     7     8     9    10 
-0.118 0.103 0.144 0.056 0.042 0.147 0.037 0.120 0.016 0.107 
-   11 
-0.110 
-
-Allocating cases to their MinEnt values produces
-    1     2     3     4     5     6     7     8     9    10 
-0.119 0.080 0.103 0.023 0.017 0.431 0.011 0.017 0.006 0.084 
-   11 
-0.109 
+Interval on C-scale: Freqency and proportions Cs to Ce
+           N     Prop
+ 1 to  1 387 0.110571
+ 2 to  2 279 0.079714
+ 3 to  3 336 0.096000
+ 4 to  4  81 0.023143
+ 5 to  5  59 0.016857
+ 6 to  6  80 0.022857
+ 7 to  7  38 0.010857
+ 8 to  8  61 0.017429
+ 9 to  9  22 0.006286
+10 to 10 164 0.046857
+11 to 11 339 0.096857
+ 1 to  4  16 0.004571
+ 1 to  5  12 0.003429
+ 1 to  6  20 0.005714
+ 1 to  7   1 0.000286
+ 1 to  8  39 0.011143
+ 1 to  9   6 0.001714
+ 1 to 10  32 0.009143
+ 1 to 11  19 0.005429
+ 2 to  4  15 0.004286
+ 2 to  5  11 0.003143
+ 2 to  6  31 0.008857
+ 2 to  7   6 0.001714
+ 2 to  8  51 0.014571
+ 2 to  9   8 0.002286
+ 2 to 10 177 0.050571
+ 2 to 11  91 0.026000
+ 3 to  6  63 0.018000
+ 3 to  7  19 0.005429
+ 3 to  8  67 0.019143
+ 3 to  9   7 0.002000
+ 3 to 10  16 0.004571
+ 3 to 11  11 0.003143
+ 4 to  6  59 0.016857
+ 4 to  7  17 0.004857
+ 4 to  8  60 0.017143
+ 4 to  9  15 0.004286
+ 4 to 10 175 0.050000
+ 4 to 11  39 0.011143
+ 5 to  8  28 0.008000
+ 5 to  9  11 0.003143
+ 5 to 10   9 0.002571
+ 5 to 11   6 0.001714
+ 6 to  8 107 0.030571
+ 6 to  9  31 0.008857
+ 6 to 10 158 0.045143
+ 6 to 11  50 0.014286
+ 7 to 10   3 0.000857
+ 7 to 11   1 0.000286
+ 8 to 10 126 0.036000
+ 8 to 11  41 0.011714
 \end{Soutput}
 \end{Schunk}
 Changing the assumed ordering of the vignettes increased the number of
@@ -757,48 +679,28 @@ Number of cases: 522 with interval value, 2925 with scalar value
 
 Maximum possible C-rank value: 7
 
-Interval on C-scale: Frequency and proportions Cs to Ce
-           N  Prop MinEnt
- 1 to  1 496 0.144      1
- 2 to  2 225 0.065      2
- 3 to  3 492 0.143      3
- 4 to  4 236 0.068      4
- 5 to  5 497 0.144      5
- 6 to  6 489 0.142      6
- 7 to  7 490 0.142      7
- 1 to  4  22 0.006      3
- 1 to  5   1 0.000      5
- 1 to  6  28 0.008      5
- 1 to  7  12 0.003      5
- 2 to  4  39 0.011      3
- 2 to  5  10 0.003      5
- 2 to  6 124 0.036      5
- 2 to  7  31 0.009      5
- 3 to  6   9 0.003      5
- 3 to  7   9 0.003      5
- 4 to  6 193 0.056      5
- 4 to  7  44 0.013      5
+Interval on C-scale: Freqency and proportions Cs to Ce
+           N    Prop
+ 1 to  1 496 0.14389
+ 2 to  2 225 0.06527
+ 3 to  3 492 0.14273
+ 4 to  4 236 0.06847
+ 5 to  5 497 0.14418
+ 6 to  6 489 0.14186
+ 7 to  7 490 0.14215
+ 1 to  4  22 0.00638
+ 1 to  5   1 0.00029
+ 1 to  6  28 0.00812
+ 1 to  7  12 0.00348
+ 2 to  4  39 0.01131
+ 2 to  5  10 0.00290
+ 2 to  6 124 0.03597
+ 2 to  7  31 0.00899
+ 3 to  6   9 0.00261
+ 3 to  7   9 0.00261
+ 4 to  6 193 0.05599
+ 4 to  7  44 0.01276
 
-Note: MinEnt is the rank for the interval that minimizes entropy
-
-Summary of C-ranks with ties/intervals broken:
-
-Distribution of ranks omiting interval cases
-    1     2     3     4    5     6     7
- 0.17 0.077 0.168 0.081 0.17 0.167 0.168
-
-Distribution of ranks allocating interval cases uniformly
-     1     2     3     4     5     6     7
- 0.147 0.082 0.161 0.108 0.179 0.175 0.148
-
-Distribution of ranks allocating interval cases via cpolr
-and conditioning on observed ranks
-    1     2     3     4     5     6     7 
-0.148 0.075 0.165 0.094 0.187 0.183 0.148 
-
-Allocating cases to their MinEnt values produces
-    1     2     3     4     5     6     7 
-0.144 0.065 0.160 0.068 0.278 0.142 0.142 
 
 Summary of entropy and intervals by subsets of vignettes:
 
@@ -1073,7 +975,7 @@ Beyond the formula and data, the rest will be set by default in the
 basic invocation,
 \begin{Schunk}
 \begin{Sinput}
-> out <- chopit(fo, data = freedom)
+> out <- anchors(fo, data = freedom, method = "chopit")
 \end{Sinput}
 \end{Schunk}
 which can be summarized by the \code{summary} method,
@@ -1096,7 +998,6 @@ $tau
 
 $cpolr
 ~1
-<environment: 0x7bb8a8>
 
 
 Coefficients:

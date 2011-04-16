@@ -14,7 +14,7 @@
    \item{top}{Show 'top' most common combinations}
    \item{digits}{digits to print}
    \item{verbose}{additional summaries}
-   \item{...}{}
+   \item{...}{additional arguments}
  }
  \details{
 

@@ -1,7 +1,8 @@
 
-R version 2.8.1 (2008-12-22)
-Copyright (C) 2008 The R Foundation for Statistical Computing
+R version 2.13.0 (2011-04-13)
+Copyright (C) 2011 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -17,11 +18,11 @@ Type 'q()' to quit R.
 
 > library(anchors)
 Loading required package: rgenoud
-##  rgenoud (Version 5.5-1, Build Date: 2009-03-13)
+##  rgenoud (Version 5.7-1, Build Date: 2010-08-26)
 ##  See http://sekhon.berkeley.edu/rgenoud for additional documentation.
 Loading required package: MASS
 
-##  anchors (Version 3.0-4, Build Date: 2009-07-01)
+##  anchors (Version 3.0-6, Build Date: 2011-04-16)
 ##  See http://wand.stanford.edu/anchors for additional documentation and support.
 
 > 
@@ -49,7 +50,7 @@ Number of cases: 601 with interval value, 174 with scalar value
 
 Maximum possible C-rank value: 11
 
-Interval on C-scale: Freqency and proportions Cs to Ce
+Interval on C-scale: Frequency and proportions Cs to Ce
            N  Prop MinEnt
  1 to  1 108 0.139      1
  2 to  2  12 0.015      2
@@ -133,11 +134,11 @@ cpolr(formula = cbind(Cs, Ce) ~ as.factor(china) + age + male +
     educyrs, data = poleff)
 
 Coefficients:
-                         Value  Std. Error    t value
-as.factor(china)1 -0.591755738 0.116670974 -5.0720048
-age                0.003442762 0.003616163  0.9520485
-male              -0.056088732 0.103520622 -0.5418122
-educyrs            0.010878747 0.010496650  1.0364018
+                      Value Std. Error t value
+as.factor(china)1 -0.591756   0.116671 -5.0720
+age                0.003443   0.003616  0.9520
+male              -0.056089   0.103521 -0.5418
+educyrs            0.010879   0.010497  1.0364
 
 Intercepts:
       Value   Std. Error t value
@@ -229,11 +230,11 @@ cpolr(formula = cbind(Cs, Cs) ~ as.factor(china) + age + male +
     educyrs, data = poleff2, Hess = TRUE)
 
 Coefficients:
-                         Value  Std. Error    t value
-as.factor(china)1 -1.076883850 0.218228465 -4.9346626
-age                0.007570058 0.007024293  1.0776968
-male              -0.157474140 0.196312492 -0.8021606
-educyrs            0.007323136 0.020005184  0.3660619
+                      Value Std. Error t value
+as.factor(china)1 -1.076884   0.218228 -4.9347
+age                0.007570   0.007024  1.0777
+male              -0.157474   0.196312 -0.8022
+educyrs            0.007323   0.020005  0.3661
 
 Intercepts:
       Value   Std. Error t value
@@ -257,11 +258,11 @@ polr(formula = as.factor(Cs) ~ as.factor(china) + age + male +
     educyrs, data = poleff2, Hess = TRUE, method = "probit")
 
 Coefficients:
-                         Value  Std. Error    t value
-as.factor(china)1 -1.076883850 0.218228465 -4.9346626
-age                0.007570058 0.007024293  1.0776968
-male              -0.157474140 0.196312492 -0.8021606
-educyrs            0.007323136 0.020005184  0.3660619
+                      Value Std. Error t value
+as.factor(china)1 -1.076884   0.218228 -4.9347
+age                0.007570   0.007024  1.0777
+male              -0.157474   0.196312 -0.8022
+educyrs            0.007323   0.020005  0.3661
 
 Intercepts:
       Value   Std. Error t value
@@ -292,8 +293,8 @@ polr(formula = as.factor(Cs) ~ male, data = poleff2, Hess = TRUE,
     method = "probit")
 
 Coefficients:
-          Value Std. Error    t value
-male -0.1532590  0.1840998 -0.8324779
+       Value Std. Error t value
+male -0.1533     0.1841 -0.8325
 
 Intercepts:
       Value   Std. Error t value
@@ -317,8 +318,8 @@ Call:
 cpolr(formula = cbind(Cs, Cs) ~ male, data = poleff2, Hess = TRUE)
 
 Coefficients:
-          Value Std. Error    t value
-male -0.1532590  0.1840998 -0.8324779
+       Value Std. Error t value
+male -0.1533     0.1841 -0.8325
 
 Intercepts:
       Value   Std. Error t value
@@ -406,7 +407,7 @@ Number of cases: 4 with interval value, 9 with scalar value
 
 Maximum possible C-rank value: 5
 
-Interval on C-scale: Freqency and proportions Cs to Ce
+Interval on C-scale: Frequency and proportions Cs to Ce
          N  Prop MinEnt
  1 to  1 3 0.231      1
  2 to  2 1 0.077      2
@@ -457,20 +458,20 @@ Allocating cases to their MinEnt values produces
 >       
 > z <- cpolr( cbind(Cs, Cs) ~ 1, data = table1src2, Hess=TRUE)
 > print(fitted(z, average=FALSE))
-                   1         2          3          4       5
-1 : 1 to 1 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-2 : 2 to 2 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-3 : 3 to 3 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-4 : 4 to 4 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-5 : 5 to 5 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-6 : 1 to 1 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-7 : 2 to 4 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-8 : 5 to 5 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-9 : 1 to 1 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-10: 1 to 4 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-11: 1 to 5 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-12: 2 to 5 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
-13: 5 to 5 0.3846149 0.2307690 0.07692307 0.07692309 0.23077
+                   1        2          3          4       5
+1 : 1 to 1 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+2 : 2 to 2 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+3 : 3 to 3 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+4 : 4 to 4 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+5 : 5 to 5 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+6 : 1 to 1 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+7 : 2 to 4 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+8 : 5 to 5 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+9 : 1 to 1 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+10: 1 to 4 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+11: 1 to 5 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+12: 2 to 5 0.3846149 0.230769 0.07692307 0.07692309 0.23077
+13: 5 to 5 0.3846149 0.230769 0.07692307 0.07692309 0.23077
 attr(,"class")
 [1] "fitted.cpolr"
 > print(fitted(z, average=TRUE))
@@ -513,6 +514,3 @@ attr(,"class")
 > 
 > 
 > 
-> proc.time()
-   user  system elapsed 
-  3.884   0.088   4.006 
