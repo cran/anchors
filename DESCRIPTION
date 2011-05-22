@@ -1,6 +1,6 @@
 Package: anchors
-Version: 3.0-6
-Date: 2011-04-16
+Version: 3.0-7
+Date: 2011-05-22
 Title: Statistical analysis of surveys with anchoring vignettes
 Author: Wand, Jonathan and Gary King, and Olivia Lau
 Maintainer: Jonathan Wand <wand@stanford.edu>
@@ -8,6 +8,6 @@ Description: Tools for analyzing survey responses with anchors.
 Depends: R (>= 2.4.0), rgenoud, MASS
 License: GPL (>= 2)
 URL: http://wand.stanford.edu/anchors
-Packaged: 2011-04-18 01:42:34 UTC; wand
+Packaged: 2011-05-23 07:07:16 UTC; wand
 Repository: CRAN
-Date/Publication: 2011-04-24 07:08:01
+Date/Publication: 2011-05-23 11:44:45

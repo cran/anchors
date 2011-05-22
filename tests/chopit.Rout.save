@@ -33,7 +33,7 @@ Loading required package: rgenoud
 ##  See http://sekhon.berkeley.edu/rgenoud for additional documentation.
 Loading required package: MASS
 
-##  anchors (Version 3.0-6, Build Date: 2011-04-16)
+##  anchors (Version 3.0-7, Build Date: 2011-05-22)
 ##  See http://wand.stanford.edu/anchors for additional documentation and support.
 
 > 
@@ -180,7 +180,7 @@ $tau
 
 $cpolr
 ~1
-<environment: 0xf31be0>
+<environment: 0xc4fac0>
 
 
 Coefficients:
