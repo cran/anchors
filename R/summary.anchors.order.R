@@ -33,14 +33,14 @@ summary.anchors.order <- function(object, top, digits=getOption("digits"),verbos
 
     if ( any(r0 != r1) || any(r0 != r2) ) stop("mismatch in summary\n")
     
-    z <- as.data.frame(list(Frequency  = as.real(y0),
-                            Proportion = as.real(y0) / N,
+    z <- as.data.frame(list(Frequency  = as.numeric(y0),
+                            Proportion = as.numeric(y0) / N,
                             Ndistinct  = m1,
                             Nviolation = m2
                             )
                        )
     rownames(z) <- r0
-    z <- z[ order( as.real(y0), decreasing=TRUE), ]    
+    z <- z[ order( as.numeric(y0), decreasing=TRUE), ]    
   } else {
     z <- as.data.frame(list(Frequency  = object$freq,
                             Proportion = object$freq / N))

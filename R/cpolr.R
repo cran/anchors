@@ -261,7 +261,8 @@ cpolr <- function(formula, data, weights, start, ..., subset,
 vcov.cpolr <- function(object, ...)
 {
   ## for the ginv function...
-  require(MASS)
+	# Now loaded by Dependencies
+  	# require(MASS)
   if(is.null(object$Hessian)) {
     cat("\nRe-fitting cpolr() to get Hessian\n\n")
     flush.console

@@ -4,6 +4,7 @@
 % RCS-ID:    $Id: anchors.plot.order.Rd,v 1.4 2005/08/10 23:25:49 jwand Exp $
 \name{anchors.order}
 \alias{anchors.order}
+\alias{anchors.order.calc}
 \title{Calculate frequency of vignette orderings}
 \description{Calculate frequency of vignette orderings}
 \usage{

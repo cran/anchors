@@ -135,7 +135,7 @@ anchors.order.calc <- function(data, ties = c("set","nominal","random","mset"))
 
     for (i in 1:N){
       oo <- order(data$z0[i,])
-      rr <- rank(data$z0[i,],ties="min")
+      rr <- rank(data$z0[i,],ties.method="min")
       or <- rr[oo]
 
       a <- list()

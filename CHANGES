@@ -202,3 +202,8 @@ exceptions are vanilla call,
 3.0-4 : JW : 
 * returns to separate anchors() and chopit() funcitons; retains simplified interface
 
+3.0-8 : CH : 
+* Changed as.real() to as.numeric throughout 
+* Generally made compatible with R >= 3.0.0, put imports to MASS and rgenoud in namespace, removed required() calls to MASS and rgenoud as they are stated dependencies. 
+* Removed all calls to html.sty in anchors vignette
+

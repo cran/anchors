@@ -344,7 +344,7 @@ anchors.chopit.fit <- function(data, parm, count, options) {
           ## extract
           voffset <- ( idx.self -1 )*count$nobs.self*(count$n.cat-1)
           tmp.taus <- Staus[ voffset + c(1:(count$nobs.self*(count$n.cat-1)))]
-          tmp.sigma.self <- as.real(sigma.self)[1]  #[idx.self]
+          tmp.sigma.self <- as.numeric(sigma.self)[1]  #[idx.self]
 
           #cat("S VOFFSET",voffset,"tmp.taus",range(voffset + c(1:(count$nobs.self*(count$n.cat-1)))),"\n")
 
@@ -379,7 +379,7 @@ anchors.chopit.fit <- function(data, parm, count, options) {
         if (do.gr) {
           gval <- gr.oprobit.self.C(data$y0,
                                     xb,
-                                    as.real(sigma.self)[1],
+                                    as.numeric(sigma.self)[1],
                                     Staus, ## JW: why is this not tmp.taus
                                     data$v0s,
                                     data$v0s1,
@@ -397,7 +397,7 @@ anchors.chopit.fit <- function(data, parm, count, options) {
       } else { ## WITH random effect
         if (options$int.meth=="gh") {## estimated with gaussian hermite quadrature
 
-          tmp.sigma.self <- as.real(sigma.self)[1]
+          tmp.sigma.self <- as.numeric(sigma.self)[1]
           tmp.sigma.re   <- sigma.re
           
           llik2 <- ll.self.gh(data$y0, xb,
@@ -596,7 +596,8 @@ anchors.chopit.fit <- function(data, parm, count, options) {
     if (verbose) 
       cat("anchors.chopit.fit: entering GENOUD optimization\n")
     
-    require(rgenoud) || stop("rgenoud library required to invoke optimizer='genoud' option")
+    # loaded automatically by Dependencies: 
+	# require(rgenoud) || stop("rgenoud library required to invoke optimizer='genoud' option")
 
     domain <- options$domain
     
@@ -605,7 +606,7 @@ anchors.chopit.fit <- function(data, parm, count, options) {
 #    print(d.gamma1)
 #    print(    parm$start$gamma > 0 )
 #    d.gamma1[parm$start$gamma >0 ] <- -domain
-    d.gamma  <- as.real(rbind(d.gamma1,d.gamma2))
+    d.gamma  <- as.numeric(rbind(d.gamma1,d.gamma2))
 
     lb.se <- ifelse(options$linear, 0.001, -5)
     

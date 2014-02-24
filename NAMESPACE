@@ -1,6 +1,8 @@
 useDynLib(anchors)
 import(grDevices)
 import(graphics)
+import(MASS)
+import(rgenoud)
 
 export(
        chopit,

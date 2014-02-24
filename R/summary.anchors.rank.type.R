@@ -32,8 +32,8 @@ summary.anchors.rank.type <- function(A) {
   
   ## summary for scalar cases
   nn <- as.numeric(names(scalar.freq))
-  scalar.matrix <- as.data.frame(list(N=as.real(scalar.freq),
-                                      Prop=as.real(scalar.freq/n.scalar),
+  scalar.matrix <- as.data.frame(list(N=as.numeric(scalar.freq),
+                                      Prop=as.numeric(scalar.freq/n.scalar),
                                       from=nn,to=nn))
   nn <- names(scalar.freq)
   nn2<- ifelse( nchar(nn)<2, paste(" ",nn,sep=""), nn)
@@ -45,8 +45,8 @@ summary.anchors.rank.type <- function(A) {
   ##       but does not require looping
   unif.matrix <- NULL
   if (!is.null(A$weight)) {
-    unif.matrix <- as.data.frame(list(N=as.real( apply(A$weight,2,sum) ),
-                                      Prop = as.real( apply(A$weight,2,mean) ),
+    unif.matrix <- as.data.frame(list(N=as.numeric( apply(A$weight,2,sum) ),
+                                      Prop = as.numeric( apply(A$weight,2,mean) ),
                                       from= 1:A$max,
                                       to  = 1:A$max))
     rownames(unif.matrix) <- 1:A$max
@@ -58,8 +58,8 @@ summary.anchors.rank.type <- function(A) {
   ## (INCLUDING scalars with zero frequency!)
   nn <- as.numeric(names(scalar.freq))
   interval.matrix <- as.data.frame(list(                           
-                           N=as.real(scalar.freq),
-                           Prop=as.real(scalar.freq/N),
+                           N=as.numeric(scalar.freq),
+                           Prop=as.numeric(scalar.freq/N),
                            from=nn,to=nn ))
   nn <- names(scalar.freq)
   nn2<- ifelse( nchar(nn)<2, paste(" ",nn,sep=""), nn)
@@ -86,8 +86,8 @@ summary.anchors.rank.type <- function(A) {
       nn.mat[i,] <- sn(name.span[i])
     }
     zt <- as.data.frame(list(
-                             N = as.real(span),
-                             Prop= as.real(span/N),
+                             N = as.numeric(span),
+                             Prop= as.numeric(span/N),
                              from=nn.mat[,1],to=nn.mat[,2]))
     rownames(zt) <- names(span)
     interval.matrix <- rbind(interval.matrix,zt)

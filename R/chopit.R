@@ -87,7 +87,7 @@ chopit <- function(formula, data, subset, options=anchors.options(), na.action =
   out <- anchors.chopit.fit(data  = adata,
                             parm  = parm,
                             count = count,
-                            opt   = options )
+                            options   = options )
               
   class(out) <- "anchors.chopit"
   return(out)
